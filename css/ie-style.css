@@ -1,0 +1,22 @@
+#content
+.js-flickr-gallery {
+    margin: 70px 0 30px;
+    position: relative;
+    height: 117px
+}
+
+#content
+.js-flickr-gallery 
+.jsfg-loader {
+    position: absolute;
+    top: 0;
+    left: 50%;
+}
+
+#content
+.js-flickr-gallery 
+.pagination {
+    position: absolute;
+    bottom: 0;
+    margin-bottom: 0
+}

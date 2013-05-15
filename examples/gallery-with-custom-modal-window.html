@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>JsFlickrGallery - Gallery With Custom Modal Window</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <script type="text/javascript" src="../js/jquery-1.9.1.js"></script>
+        <script type="text/javascript" src="../js/bootstrap.js"></script>
+        <script type="text/javascript" src="../js/js-flickr-gallery.js"></script>
+        <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css"/>
+        <link rel="stylesheet" type="text/css" href="../css/bootstrap-responsive.min.css"/>
+        <link rel="stylesheet" type="text/css" href="../css/font-awesome.min.css"/>
+        <link rel="stylesheet" type="text/css" href="../css/js-flickr-gallery.css"/>
+        <link rel="stylesheet" type="text/css" href="../css/ex-style.css"/>
+        <style>
+            .custom-stuff {
+                text-align: center;
+                color: green;
+                font-weight: bold;
+            }
+        </style>
+        <script>
+            $(function() {
+                $('.js-flickr-gallery').jsFlickrGallery({
+                    'modal' : { // false to disable
+                        'generate' : false
+                    }
+                });
+            });
+        </script>
+    </head>
+    <body>
+        <header>
+            <div id="header">
+                <nav>
+                    <div id="nav" class="navbar navbar-fixed-top navbar-inverse">
+                        <div class="navbar-inner">
+                            <div class="container">
+                                <a class="brand" href="/">
+                                    <i class="icon-cloud"></i>
+                                    JsFlickrGallery
+                                </a>
+                                <ul class="nav">
+                                    <li>
+                                        <a href="/"><i class="icon-chevron-left"></i> Back</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </header>
+        <div id="content" class="container">
+            <article>
+                <section>
+                    <div class="row">
+                        <div class="span12">
+                            <h1>Gallery With Custom Modal Window</h1>
+                            <div class="js-flickr-gallery" data-tags="red cars" 
+                                 data-per-page="30"></div>
+                        </div>
+                    </div>
+                </section>
+            </article>
+        </div>
+        <!-- Custom modal -->
+        <div id="jsfg-modal" class="modal jsfg-modal hide fade">
+            <div class="modal-header">
+                <div class="custom-stuff">Some custom stuff goes here for example</div>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h3></h3>
+            </div>
+            <div class="modal-body">
+                <div class="modal-image"></div>
+            </div>
+            <div class="modal-footer">
+                <div class="custom-stuff">And maybe here also</div>
+                <button title="Previous image" class="btn btn-danger modal-prev">«</button>
+                <button title="Next image" class="btn btn-inverse modal-next">»</button>
+            </div>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>JsFlickrGallery - Alternative Effects And Loader</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <script type="text/javascript" src="../js/jquery-1.9.1.js"></script>
+        <script type="text/javascript" src="../js/bootstrap.js"></script>
+        <script type="text/javascript" src="../js/js-flickr-gallery.js"></script>
+        <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css"/>
+        <link rel="stylesheet" type="text/css" href="../css/bootstrap-responsive.min.css"/>
+        <link rel="stylesheet" type="text/css" href="../css/font-awesome.min.css"/>
+        <link rel="stylesheet" type="text/css" href="../css/js-flickr-gallery.css"/>
+        <link rel="stylesheet" type="text/css" href="../css/ex-style.css"/>
+        <style>
+            .jsfg-loader {
+                font-size: 50px;
+                font-weight: normal;
+            }
+        </style>
+        <script>
+            $(function() {
+                $('.js-flickr-gallery').jsFlickrGallery({
+                    'animation' : 'show',
+                    'animationSpeed' : 500,
+                    'preload' : { // false to disable
+                        'range' : 3
+                    }, 
+                    'structure' : { 
+                        'ulClass' : 'thumbnails',
+                        'liClass' : 'span1',
+                        'aClass' : 'thumbnail'
+                    },
+                    'modal' : {
+                        'imageFadeTime' : 500,
+                        'offsetWidth' : 100,
+                        'offsetHeight' : 200
+                    },
+                    'pagination' : false,
+                    'loader' : { 
+                        'animation' : true,
+                        'text' : '',
+                        'interval' : 150,
+                        'mark' : '☠',
+                        'maxMarks' : 5
+                    },
+                    'error' : {
+                        'text' : 'No photos here mate',
+                        'tagClass' : 'big-error'
+                    }
+                });
+            });
+        </script>
+    </head>
+    <body>
+        <header>
+            <div id="header">
+                <nav>
+                    <div id="nav" class="navbar navbar-fixed-top navbar-inverse">
+                        <div class="navbar-inner">
+                            <div class="container">
+                                <a class="brand" href="/">
+                                    <i class="icon-cloud"></i>
+                                    JsFlickrGallery
+                                </a>
+                                <ul class="nav">
+                                    <li>
+                                        <a href="/"><i class="icon-chevron-left"></i> Back</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </header>
+        <div id="content" class="container">
+            <article>
+                <section>
+                    <div class="row">
+                        <div class="span12">
+                            <h1>Alternative Effects And Loader</h1>
+                            <div class="js-flickr-gallery" data-tags="sky" 
+                                 data-per-page="30"></div>
+                        </div>
+                    </div>
+                </section>
+            </article>
+        </div>
+    </body>
+</html>

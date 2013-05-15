@@ -1,0 +1,203 @@
+/*
+ * General styles
+ */
+h1 {
+     font-size: 40px;
+     line-height: 125%;
+     padding: 10px 0;
+}
+
+h2 {
+     font-size: 25px;
+     font-weight: normal;
+     margin-top: 25px;
+     padding-bottom: 5px;
+     border-bottom: 1px solid #c1c1c1;
+}
+
+h3 {
+    font-size: 16px;
+    line-height: 125%;
+}
+
+body {
+    background: url('../img/bg.gif');
+}
+
+/*
+ * Header section
+ */
+#header {
+    
+}
+
+    #header
+    #nav 
+    .brand {
+        color: #FFF
+    }
+
+@media (max-width: 979px) {
+    #nav.navbar-fixed-top {
+        margin-bottom: 0;
+    }
+}
+
+@media (max-width: 480px) {
+    #nav ul.nav li {
+        float: none
+    }
+}
+
+/*
+ * Content section
+ */
+#content-bg {
+    height: 200px;
+    background: whitesmoke;
+    border-bottom: 1px solid #DDD;
+}
+
+@media (max-width: 767px) {
+    #content-bg {
+        background: 0;
+        border: 0;
+    }
+}
+
+#content 
+h1.invitation {
+    text-align: center;
+}
+
+#content 
+.features-box {
+    float: right;
+    right: 50%;
+    position: relative;
+}
+
+#content 
+.features-box
+ul.features {
+    list-style: none;
+    float: right;
+    right: -50%;
+    margin-left: 0;
+    margin-bottom: 15px;
+    position: relative;
+}
+
+    #content 
+    .features-box
+    ul.features
+    li {
+        margin-top: 40px;
+        text-align: center;
+    }
+
+        #content 
+        .features-box
+        ul.features
+        li.no-margin-left {
+            margin-left: 0;
+        }
+
+        #content 
+        .features-box
+        ul.features
+        li i {
+           font-size: 60px; 
+        }
+
+        #content 
+        .features-box
+        ul.features
+        li p {
+            margin: 0;
+        }
+
+#content
+.table {
+    background: whitesmoke;
+}
+    
+    @media (max-width: 479px) {
+        #content
+        .table
+        tr
+        td
+        {
+            word-break: break-all;
+        }
+    }
+            
+@media (max-width: 767px) {
+    #content
+    .js-flickr-gallery {
+        display: none;
+    }
+}
+
+@media (min-width: 768px) {
+    #content
+    .js-flickr-gallery {
+        margin: 70px 0 30px;
+        position: relative;
+        height: 117px
+    }
+
+        #content
+        .js-flickr-gallery 
+        .jsfg-loader {
+            position: absolute;
+            top: 0;
+            left: 50%;
+        }
+
+        #content
+        .js-flickr-gallery 
+        .pagination {
+            position: absolute;
+            bottom: 0;
+            margin-bottom: 0
+        }
+}
+
+    #content
+    .table-bordered 
+    tr.light-top 
+    td {
+         border-top: 1px solid #eee;
+    }
+
+    #content
+    .table-bordered 
+    tr.light-top 
+    td 
+    i.icon-angle-right {
+         margin-left: 10px;
+    }
+    
+    #content
+    .btn-group.action-links {
+        display: block;
+        text-align: center;
+        margin-top: 30px;
+    }
+    
+/*
+ * Footer section
+ */
+#footer .span8 {
+    margin-top: 20px;
+    padding: 20px 0;
+    border-top: 1px solid #999999;
+}
+
+/*
+ * Utility 
+ */
+.no-margin {
+    margin: 0;
+}

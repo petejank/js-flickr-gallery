@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>JsFlickrGallery</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <script type="text/javascript" src="js/jquery-1.9.1.js"></script>
+        <script type="text/javascript" src="js/bootstrap.js"></script>
+        <script type="text/javascript" src="js/js-flickr-gallery.js"></script>
+        <script type="text/javascript" src="js/main.js"></script>
+        <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"/>
+        <link rel="stylesheet" type="text/css" href="css/bootstrap-responsive.min.css"/>
+        <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css"/>
+        <link rel="stylesheet" type="text/css" href="css/js-flickr-gallery.css"/>
+        <link rel="stylesheet" type="text/css" href="css/style.css"/>
+        <!--[if lte IE 8]>
+            <link rel="stylesheet" type="text/css" href="css/ie-style.css"/>
+        <![endif]-->
+    </head>
+    <body data-spy="scroll" data-target="#nav">
+        <header>
+            <div id="header">
+                <nav>
+                    <div id="nav" class="navbar navbar-fixed-top navbar-inverse">
+                        <div class="navbar-inner">
+                            <div class="container">
+                                <a class="brand" href="/">
+                                    <i class="icon-cloud"></i>
+                                    JsFlickrGallery
+                                </a>
+                                <ul class="nav">
+                                    <li class="active"><a href="#about"><i class="icon-bullhorn"></i> About</a></li>
+                                    <li><a href="#usage"><i class="icon-wrench"></i> Usage</a></li>
+                                    <li><a href="#examples"><i class="icon-film"></i> Examples</a></li>
+                                    <li><a href="#documentation"><i class="icon-book"></i> Documentation</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </header>
+        <article>
+            <div id="content-bg">
+                <div id="content" class="container">
+                    <section>
+                        <div class="row">
+                            <div class="span12">
+                                <div class="js-flickr-gallery" data-toggle="jsfg" data-tags="cats" 
+                                     data-per-page="12"></div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="span10 offset1">
+                                <h1 class="invitation">
+                                    Easy to use and flexible Flickr gallery
+                                </h1>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="span12 clearfix">
+                                <div class="features-box">
+                                    <ul class="features clearfix">
+                                        <li class="span2 no-margin-left">
+                                            <section>
+                                                <i class="icon-desktop"></i>
+                                                <h3>No server-side</h3>
+                                                <p> 
+                                                    No need for server-side image fetching - user's browser requests
+                                                    images from Flickr by itself
+                                                </p>    
+                                            </section>
+                                        </li>
+                                        <li class="span2">
+                                            <section>
+                                                <i class="icon-magic"></i>
+                                                <h3>Easy setup</h3>
+                                                <p>
+                                                    Paste small HTML snippet and you're ready to go. No JavaScript
+                                                    knowledge required!
+                                                </p>    
+                                            </section>
+                                        </li>
+                                        <li class="span2">
+                                            <section>
+                                                <i class="icon-thumbs-up"></i>
+                                                <h3>Bootstrap compatible</h3>
+                                                <p>
+                                                    The script comes prepared for implementation in Bootstrap based 
+                                                    websites or applications
+                                                </p>
+                                            </section>
+                                        </li>
+                                        <li class="span2">
+                                            <section>
+                                                <i class="icon-share"></i>
+                                                <h3>Pagination included</h3>
+                                                <p> 
+                                                    Paginate your results using manual or automatic pagination controls
+                                                </p>    
+                                            </section>
+                                        </li>
+                                        <li class="span2">
+                                            <section>
+                                                <i class="icon-cogs"></i>
+                                                <h3>Highly customizable</h3>
+                                                <p>
+                                                    Multiple options allow easy and complex gallery
+                                                    customization
+                                                </p>
+                                            </section>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="span10 offset1">
+                                <div class="btn-group action-links">
+                                    <a href="https://github.com/peterjankowski/js-flickr-gallery/archive/v1.0.0.zip"  
+                                       target="_blank" class="btn btn-primary btn-large">
+                                        <i class="icon-download"></i> 
+                                        Download
+                                    </a>
+                                    <a href="https://github.com/peterjankowski/js-flickr-gallery" target="_blank"
+                                       class="btn btn-large"><i class="icon-github"></i> 
+                                        View on GitHub
+                                    </a>
+                                </div>
+                                <section id="about">
+                                    <h2><i class="icon-bullhorn"></i> About</h2>
+                                    <p>
+                                        JsFlickrGallery is a <a href="http://flickr.com" target="_blank">Flickr</a> 
+                                        based gallery plugin for jQuery (1.7+) that doesn't require any server-side 
+                                        image fetching mechanisms due to 
+                                        <a href="http://en.wikipedia.org/wiki/JSONP" target="_blank">JSONP</a> 
+                                        usage. It features easy implementation and provides wide set of options for
+                                        advanced customization, including automatic modal and pagination deployment.
+                                    </p>
+                                    <p>
+                                        JsFlickrGallery was created by Peter Jankowski (wow, me). I'm reachable through 
+                                        <a href="http://likeadev.com" target="_blank">likeadev.com</a>, my 
+                                        <a href="https://github.com/peterjankowski" target="_blank">
+                                            GitHub</a> or my <a href="https://twitter.com/likeadev" 
+                                                  target="_blank">Twitter</a>.
+                                    </p>
+                                </section>
+                                <section id="usage">
+                                    <h2><i class="icon-wrench"></i> Usage</h2>
+                                    <p>Basic usage is really simple. Just follow these steps:</p>
+                                    <ol>
+                                        <li>First, <a href="https://github.com/peterjankowski/js-flickr-gallery/archive/v1.0.0.zip" target="_blank">download</a>, or pull JsFlickrGallery from <a href="https://github.com/peterjankowski/js-flickr-gallery" target="_blank">GitHub</a>,</li>
+                                        <li>download <a href="http://jquery.com" target="_blank">jQuery</a> version 1.7 or higher,</li>
+                                        <li><a href="http://twitter.github.io/bootstrap/" target="_blank">Boostrap Twitter</a> modal is required, so you'll 
+                                            either need to fetch whole Bootstrap package or only the modal module under 
+                                            <a href="http://twitter.github.io/bootstrap/javascript.html" target="_blank">this</a> address,</li>
+                                        <li>move and eventually extract fetched content - jQuery script, Bootstrap CSS and script, JsFlickrGallery 
+                                            script and CSS (optional) - to your project folder,</li>
+                                        <li>
+                                            <p>add following code to your head section:</p>
+                                            <pre><span style="color: #000080; font-weight: bold">&lt;script </span><span style="color: #FF0000">type=</span><span style="color: #0000FF">&quot;text/javascript&quot;</span> <span style="color: #FF0000">src=</span><span style="color: #0000FF">&quot;js/jquery.js&quot;</span><span style="color: #000080; font-weight: bold">&gt;&lt;/script&gt;</span>
+<span style="color: #000080; font-weight: bold">&lt;script </span><span style="color: #FF0000">type=</span><span style="color: #0000FF">&quot;text/javascript&quot;</span> <span style="color: #FF0000">src=</span><span style="color: #0000FF">&quot;js/bootstrap.js&quot;</span><span style="color: #000080; font-weight: bold">&gt;&lt;/script&gt;</span>
+<span style="color: #000080; font-weight: bold">&lt;script </span><span style="color: #FF0000">type=</span><span style="color: #0000FF">&quot;text/javascript&quot;</span> <span style="color: #FF0000">src=</span><span style="color: #0000FF">&quot;js/js-flickr-gallery.js&quot;</span><span style="color: #000080; font-weight: bold">&gt;&lt;/script&gt;</span>
+<span style="color: #000080; font-weight: bold">&lt;link</span> <span style="color: #FF0000">rel=</span><span style="color: #0000FF">&quot;stylesheet&quot;</span> <span style="color: #FF0000">type=</span><span style="color: #0000FF">&quot;text/css&quot;</span> <span style="color: #FF0000">href=</span><span style="color: #0000FF">&quot;css/bootstrap.css&quot;</span><span style="color: #000080; font-weight: bold">/&gt;</span></pre>
+                                        </li>
+                                        <li>
+                                            <p>you can also add optional JsFlickrGallery styles to make your gallery look more tasty (strongly suggested):</p>
+                                            <pre><span style="color: #000080; font-weight: bold">&lt;link</span> <span style="color: #FF0000">rel=</span><span style="color: #0000FF">&quot;stylesheet&quot;</span> <span style="color: #FF0000">type=</span><span style="color: #0000FF">&quot;text/css&quot;</span> <span style="color: #FF0000">href=</span><span style="color: #0000FF">&quot;css/js-flickr-gallery.css&quot;</span><span style="color: #000080; font-weight: bold">/&gt;</span></pre>
+                                        </li>
+                                    </ol>
+
+                                    <p>And that's it. Now if you'll put following snippet in your code:</p>
+                                    <pre><span style="color: #000080; font-weight: bold">&lt;div</span> <span style="color: #FF0000">data-toggle=</span><span style="color: #0000FF">&quot;jsfg&quot;</span> <span style="color: #FF0000">data-tags=</span><span style="color: #0000FF">&quot;dogs&quot;</span> <span style="color: #FF0000">data-per-page=</span><span style="color: #0000FF">&quot;10&quot;</span><span style="color: #000080; font-weight: bold">&gt;&lt;/div&gt;</span></pre>
+                                    <p>
+                                        JsFlickrGallery will create (automatically, once document is ready) a gallery inside this div that'll 
+                                        contain 10 photos per page with tag 
+                                        <em>"dogs"</em>, fetched from public stack. This way you can create multiple galleries with different tags, 
+                                        size (still, remember about 
+                                        <a href="http://www.flickr.com/services/api/tos/" 
+                                           target="_blank">Flickr APIs Terms of Use</a>) and and even target certain user. 
+                                        Works only for DOM elements with <code>data-toggle="jsfg"</code> attribute.
+                                    </p>
+                                    <p>
+                                        You can also deploy galleries manually, eg. for <code>&lt;div id="gallery"&gt;</code> use code:
+                                    </p>
+                                    <pre>$(<span style="color: #0000FF">&quot;#gallery&quot;</span>).jsFlickrGallery(options)</pre>
+                                    <p>
+                                        Argument <code>options</code> is an object that contains plugin configuration
+                                        parameters. See the <a href="#documentation">documentation</a> for more details.
+                                    </p>
+                                </section>
+                                <section id="examples">
+                                    <h2><i class="icon-film"></i> Examples</h2>
+                                    <ol>
+                                        <li>
+                                            <a href="examples/single-gallery.html">
+                                                Single gallery
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="examples/multiple-galleries.html">
+                                                Multiple galleries with styles
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="examples/gallery-with-custom-modal-window.html">
+                                                Gallery with custom modal window
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="examples/alternative-effects-and-loader.html">
+                                                Alternative effects and loader
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="examples/gallery-without-fetching-photos-from-flickr.html">
+                                                Gallery Without Fetching Photos From Flickr
+                                            </a>
+                                        </li>
+                                    </ol>
+                                </section>
+                                <section id="documentation">
+                                    <h2><i class="icon-book"></i> Documentation</h2>
+                                    <section>
+                                        <h3>Attributes</h3>
+                                        <p>
+                                            Attributes that can be attached to gallery placeholder. All attributes 
+                                            attached to tag have higher priority than plugin options.
+                                        </p>
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th>Name</th>
+                                                    <th>Description</th>    
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td><code>data-tags</code></td>
+                                                    <td>
+                                                        Tags separated by spaces which filter images fetched from Flickr.
+                                                        This attribute is mandatory when using automatic requests.
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td><code>data-user-id</code></td>
+                                                    <td>
+                                                        User ID from whom data should be fetched. Optional.
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td><code>data-per-page</code></td>
+                                                    <td>
+                                                        How many photos should be displayed per page.
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </section>
+                                    <section>
+                                        <h3>Methods</h3>
+                                        <p>Small set of methods accessible through gallery plugin instance</p>
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th style="width: 10%">Name</th>
+                                                    <th style="width: 13%">Params</th>    
+                                                    <th style="width: 13%">Returns</th>    
+                                                    <th style="width: 64%">Description</th>    
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td><code>createGallery</code></td>
+                                                    <td>
+                                                        page : Integer
+                                                    </td>
+                                                    <td>
+                                                        Plugin
+                                                    </td>
+                                                    <td>
+                                                        Creates gallery in container. Called every time when
+                                                        new gallery instance is created. Only appends photos list
+                                                        to container, doesn't deploy pagination nor modal window
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td><code>clearGallery</code></td>
+                                                    <td>
+                                                        loader : boolean
+                                                    </td>
+                                                    <td>
+                                                        Plugin
+                                                    </td>
+                                                    <td>
+                                                        Hide photos and remove them. If loader is true then
+                                                        displays loader
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td><code>isLastPage</code></td>
+                                                    <td>
+                                                        -
+                                                    </td>
+                                                    <td>
+                                                        boolean
+                                                    </td>
+                                                    <td>
+                                                        Check if current page is the last page of the gallery
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td><code>nextPage</code></td>
+                                                    <td>
+                                                        -
+                                                    </td>
+                                                    <td>
+                                                        Plugin / boolean 
+                                                    </td>
+                                                    <td>
+                                                        Display next page of the gallery. Returns false if current page
+                                                        is the last one
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td><code>prevPage</code></td>
+                                                    <td>
+                                                        -
+                                                    </td>
+                                                    <td>
+                                                        Plugin / boolean 
+                                                    </td>
+                                                    <td>
+                                                        Display previous page of the gallery. Returns false if current 
+                                                        page is the first one
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td><code>prevImage</code></td>
+                                                    <td>
+                                                        -
+                                                    </td>
+                                                    <td>
+                                                        Plugin / boolean 
+                                                    </td>
+                                                    <td>
+                                                        Diplay previous gallery image in modal window. Available only
+                                                        if modal window is enabled
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td><code>nextImage</code></td>
+                                                    <td>
+                                                        -
+                                                    </td>
+                                                    <td>
+                                                        Plugin / boolean 
+                                                    </td>
+                                                    <td>
+                                                        Diplay next gallery image in modal window. Available only
+                                                        if modal window is enabled, else returns false
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </section>
+                                    <section>
+                                        <h3>Options</h3>
+                                        <p>Options passed as argument when manually creating an instance of gallery</p>
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th style="width: 18%">Name</th>
+                                                    <th style="width: 10%">Type</th>    
+                                                    <th style="width: 20%">Default</th>
+                                                    <th style="width: 52%">Description</th>    
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td><code>fetchImages</code></td>
+                                                    <td>boolean</td>
+                                                    <td>true</td>
+                                                    <td>
+                                                        Determines whether photos should be fetched from Flickr
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td><code>animation</code></td>
+                                                    <td>string</td>
+                                                    <td>"fade"</td>
+                                                    <td>
+                                                        Gallery toggle animation type. Available values: 'fade', 'show'. 
+                                                        Set false to disable.
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td><code>animationSpeed</code></td>
+                                                    <td>number</td>
+                                                    <td>300</td>
+                                                    <td>
+                                                        Entry animation speed in miliseconds.
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td><code>preload</code></td>
+                                                    <td>object</td>
+                                                    <td>-</td>
+                                                    <td>Modal window preload control mechanism. Set false to disable.</td>
+                                                </tr>
+                                                <tr class="light-top">
+                                                    <td><i class="icon-angle-right"></i> <code>range</code></td>
+                                                    <td>number</td>
+                                                    <td>2</td>
+                                                    <td>How many photos should be preloaded</td>
+                                                </tr>
+                                                <tr>
+                                                    <td><code>structure</code></td>
+                                                    <td>object</td>
+                                                    <td>-</td>
+                                                    <td>Structure settings</td>
+                                                </tr>
+                                                <tr class="light-top">
+                                                    <td><i class="icon-angle-right"></i> <code>ulClass</code></td>
+                                                    <td>string</td>
+                                                    <td>"thumbnails"</td>
+                                                    <td>Class attached to unordered list element</td>
+                                                </tr>
+                                                <tr class="light-top">
+                                                    <td><i class="icon-angle-right"></i> <code>liClass</code></td>
+                                                    <td>string</td>
+                                                    <td>"span1"</td>
+                                                    <td>Class attached to list item elements</td>
+                                                </tr>
+                                                <tr class="light-top">
+                                                    <td><i class="icon-angle-right"></i> <code>aClass</code></td>
+                                                    <td>string</td>
+                                                    <td>"thumbnail"</td>
+                                                    <td>Class attached to anchor elements</td>
+                                                </tr>
+                                                <tr>
+                                                    <td><code>modal</code></td>
+                                                    <td>object</td>
+                                                    <td>-</td>
+                                                    <td>Modal window settings. False to disable modal display</td>
+                                                </tr>
+                                                <tr class="light-top">
+                                                    <td><i class="icon-angle-right"></i> <code>generate</code></td>
+                                                    <td>boolean</td>
+                                                    <td>true</td>
+                                                    <td>
+                                                        Should modal markup be generated.
+                                                    </td>
+                                                </tr>
+                                                <tr class="light-top">
+                                                    <td><i class="icon-angle-right"></i> <code>id</code></td>
+                                                    <td>string</td>
+                                                    <td>"jsfg-modal"</td>
+                                                    <td>Modal container id</td>
+                                                </tr>
+                                                <tr class="light-top">
+                                                    <td><i class="icon-angle-right"></i> <code>title</code></td>
+                                                    <td>string</td>
+                                                    <td>".modal-header h3"</td>
+                                                    <td>Title container selector</td>
+                                                </tr>
+                                                <tr class="light-top">
+                                                    <td><i class="icon-angle-right"></i> <code>imageContainer</code></td>
+                                                    <td>string</td>
+                                                    <td>".modal-body .modal-image"</td>
+                                                    <td>Container in which images are placed</td>
+                                                </tr>
+                                                <tr class="light-top">
+                                                    <td><i class="icon-angle-right"></i> <code>onContainerNext</code></td>
+                                                    <td>boolean</td>
+                                                    <td>true</td>
+                                                    <td>Switch to next image on image container click</td>
+                                                </tr>
+                                                <tr class="light-top">
+                                                    <td><i class="icon-angle-right"></i> <code>imageFadeTime</code></td>
+                                                    <td>number</td>
+                                                    <td>250</td>
+                                                    <td>Image fade in time</td>
+                                                </tr>
+                                                <tr class="light-top">
+                                                    <td><i class="icon-angle-right"></i> <code>prev</code></td>
+                                                    <td>string</td>
+                                                    <td>".modal-prev"</td>
+                                                    <td>Previous button selector</td>
+                                                </tr>
+                                                <tr class="light-top">
+                                                    <td><i class="icon-angle-right"></i> <code>next</code></td>
+                                                    <td>string</td>
+                                                    <td>".modal-next"</td>
+                                                    <td>Next button selector</td>
+                                                </tr>
+                                                <tr class="light-top">
+                                                    <td><i class="icon-angle-right"></i> <code>prevText</code></td>
+                                                    <td>string</td>
+                                                    <td>"Previous image"</td>
+                                                    <td>
+                                                        Previous button title. Attached only when modal is generated
+                                                    </td>
+                                                </tr>
+                                                <tr class="light-top">
+                                                    <td><i class="icon-angle-right"></i> <code>nextText</code></td>
+                                                    <td>string</td>
+                                                    <td>"Previous image"</td>
+                                                    <td>
+                                                        Next button title. Attached only when modal is generated
+                                                    </td>
+                                                </tr>
+                                                <tr class="light-top">
+                                                    <td><i class="icon-angle-right"></i> <code>offsetWidth</code></td>
+                                                    <td>number</td>
+                                                    <td>100</td>
+                                                    <td>
+                                                        Modal horizontal offset used in image scaling
+                                                    </td>
+                                                </tr>
+                                                <tr class="light-top">
+                                                    <td><i class="icon-angle-right"></i> <code>offsetHeight</code></td>
+                                                    <td>number</td>
+                                                    <td>200</td>
+                                                    <td>
+                                                        Modal vertical offset used in image scaling
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td><code>pagination</code></td>
+                                                    <td>object</td>
+                                                    <td>-</td>
+                                                    <td>
+                                                        Pagination settings. False to disable pagination
+                                                    </td>
+                                                </tr>
+                                                <tr class="light-top">
+                                                    <td><i class="icon-angle-right"></i> <code>generate</code></td>
+                                                    <td>boolean</td>
+                                                    <td>true</td>
+                                                    <td>
+                                                        Should pagination be generated automatically
+                                                    </td>
+                                                </tr>
+                                                <tr class="light-top">
+                                                    <td><i class="icon-angle-right"></i> <code>containerClass</code></td>
+                                                    <td>string</td>
+                                                    <td>"pagination"</td>
+                                                    <td>
+                                                        Class added to pagination container when it's generated
+                                                    </td>
+                                                </tr>
+                                                <tr class="light-top">
+                                                    <td><i class="icon-angle-right"></i> <code>prev</code></td>
+                                                    <td>string</td>
+                                                    <td>".pagination-prev"</td>
+                                                    <td>
+                                                        Previous page button selector. When pagination is 
+                                                        generated - it's used in pagination container scope - else 
+                                                        in document scope
+                                                    </td>
+                                                </tr>
+                                                <tr class="light-top">
+                                                    <td><i class="icon-angle-right"></i> <code>next</code></td>
+                                                    <td>string</td>
+                                                    <td>".pagination-next"</td>
+                                                    <td>
+                                                        Next page button selector. When pagination is 
+                                                        generated - it's used in pagination container scope - else 
+                                                        in document scope
+                                                    </td>
+                                                </tr>
+                                                <tr class="light-top">
+                                                    <td><i class="icon-angle-right"></i> <code>prevText</code></td>
+                                                    <td>string</td>
+                                                    <td>"Previous page"</td>
+                                                    <td>
+                                                        Previous page button title if it's generated
+                                                    </td>
+                                                </tr>
+                                                <tr class="light-top">
+                                                    <td><i class="icon-angle-right"></i> <code>nextText</code></td>
+                                                    <td>string</td>
+                                                    <td>"Next page"</td>
+                                                    <td>
+                                                        Next page button title if it's generated
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td><code>loader</code></td>
+                                                    <td>object</td>
+                                                    <td>-</td>
+                                                    <td>
+                                                        Loader settings. False to disable loader
+                                                    </td>
+                                                </tr>
+                                                <tr class="light-top">
+                                                    <td><i class="icon-angle-right"></i> <code>animation</code></td>
+                                                    <td>boolean</td>
+                                                    <td>true</td>
+                                                    <td>
+                                                        Toggle loader animation
+                                                    </td>
+                                                </tr>
+                                                <tr class="light-top">
+                                                    <td><i class="icon-angle-right"></i> <code>text</code></td>
+                                                    <td>string</td>
+                                                    <td>"Loader"</td>
+                                                    <td>
+                                                        Loader static body string
+                                                    </td>
+                                                </tr>
+                                                <tr class="light-top">
+                                                    <td><i class="icon-angle-right"></i> <code>interval</code></td>
+                                                    <td>number</td>
+                                                    <td>200</td>
+                                                    <td>
+                                                        Loader animation interval
+                                                    </td>
+                                                </tr>
+                                                <tr class="light-top">
+                                                    <td><i class="icon-angle-right"></i> <code>mark</code></td>
+                                                    <td>string</td>
+                                                    <td>"."</td>
+                                                    <td>
+                                                        String that'll be attached as suffix of loader body string 
+                                                        on each interval
+                                                    </td>
+                                                </tr>
+                                                <tr class="light-top">
+                                                    <td><i class="icon-angle-right"></i> <code>maxMarks</code></td>
+                                                    <td>number</td>
+                                                    <td>3</td>
+                                                    <td>
+                                                        Maximum number of displayed marks
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td><code>url</code></td>
+                                                    <td>object</td>
+                                                    <td>-</td>
+                                                    <td>
+                                                        Url parameters that are sent to Flickr servers
+                                                    </td>
+                                                </tr>
+                                                <tr class="light-top">
+                                                    <td><i class="icon-angle-right"></i> <code>per_page</code></td>
+                                                    <td>number</td>
+                                                    <td>30</td>
+                                                    <td>
+                                                        Photos fetched per request
+                                                    </td>
+                                                </tr>
+                                                <tr class="light-top">
+                                                    <td><i class="icon-angle-right"></i> <code>tagmode</code></td>
+                                                    <td>string</td>
+                                                    <td>"all"</td>
+                                                    <td>
+                                                        Photo selection tagmode. Available values: "any" and "all"
+                                                    </td>
+                                                </tr>
+                                                <tr class="light-top">
+                                                    <td><i class="icon-angle-right"></i> <code>user_id</code></td>
+                                                    <td>string</td>
+                                                    <td>null</td>
+                                                    <td>
+                                                        Allows to fetch photos that belong only to certain user
+                                                    </td>
+                                                </tr>
+                                                <tr class="light-top">
+                                                    <td><i class="icon-angle-right"></i> <code>tags</code></td>
+                                                    <td>string</td>
+                                                    <td>null</td>
+                                                    <td>
+                                                        Photo tags separated by whitespace. Mandatory if creating
+                                                        manual gallery instance without defining any tags in 
+                                                        gallery container
+                                                    </td>
+                                                </tr>
+                                                <tr class="light-top">
+                                                    <td><i class="icon-angle-right"></i> <code>error</code></td>
+                                                    <td>object</td>
+                                                    <td>-</td>
+                                                    <td>
+                                                        Displayed error settigns
+                                                    </td>
+                                                </tr>
+                                                <tr class="light-top">
+                                                    <td><i class="icon-angle-right"></i> <code>text</code></td>
+                                                    <td>string</td>
+                                                    <td>"No photos found"</td>
+                                                    <td>
+                                                        String displayed when no photos were found
+                                                    </td>
+                                                </tr>
+                                                <tr class="light-top">
+                                                    <td><i class="icon-angle-right"></i> <code>tagClass</code></td>
+                                                    <td>string</td>
+                                                    <td>"error"</td>
+                                                    <td>
+                                                        Class added to error span tag
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td><code>imagesSizes</code></td>
+                                                    <td>object</td>
+                                                    <td>-</td>
+                                                    <td>
+                                                        Contains overridable images sizes. Available values: 
+                                                        small (up to 75 x 75), medium (up to 100 x 75),
+                                                        medium (up to 150 x 150), medium (up to 620 x 640),
+                                                        large (up to 1024 in any of two dimensions), 
+                                                        original (original image size)
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td><code>thumbnailSize</code></td>
+                                                    <td>string</td>
+                                                    <td>imagesSizes["medium"]</td>
+                                                    <td>
+                                                        Thumbnail size
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td><code>imageSize</code></td>
+                                                    <td>string</td>
+                                                    <td>imagesSizes["large"]</td>
+                                                    <td>
+                                                        Target image size that'll be displayed in modal or 
+                                                        new tab
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td><code>apiUrl</code></td>
+                                                    <td>string</td>
+                                                    <td>http://api.flickr.com/services/rest/?jsoncallback=?</td>
+                                                    <td>
+                                                        Flickr API url
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </section>
+                                </section>  
+                            </div>
+                        </div>
+                    </section>
+                </div>
+                <footer>
+                    <div id="footer">
+                        <div class="container">
+                            <section>
+                                <div class="row">
+                                    <div class="span8 offset2">
+                                        JsFlickrGallery is license under <a href="https://raw.github.com/peterjankowski/js-flickr-gallery/master/LICENSE.txt" target="_blank">MIT license</a>. 
+                                        © <span id="current-year"></span> 
+                                        <a href="http://likeadev.com" target="_blank">Peter Jankowski</a>. 
+                                        All rights reserved.
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+                </footer>
+            </div>
+        </article>
+    </body>
+</html>

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>JsFlickrGallery - Gallery Without Fetching Photos From Flickr</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <script type="text/javascript" src="../js/jquery-1.9.1.js"></script>
+        <script type="text/javascript" src="../js/bootstrap.js"></script>
+        <script type="text/javascript" src="../js/js-flickr-gallery.js"></script>
+        <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css"/>
+        <link rel="stylesheet" type="text/css" href="../css/bootstrap-responsive.min.css"/>
+        <link rel="stylesheet" type="text/css" href="../css/font-awesome.min.css"/>
+        <link rel="stylesheet" type="text/css" href="../css/js-flickr-gallery.css"/>
+        <link rel="stylesheet" type="text/css" href="../css/ex-style.css"/>
+        <script>
+            $(function() {
+                $('.js-flickr-gallery').jsFlickrGallery({
+                    'fetchImages' : false,
+                    'pagination' : false,
+                    'error' : {
+                        'text' : 'No photos here mate',
+                        'tagClass' : 'big-error'
+                    }
+                });
+            });
+        </script>
+    </head>
+    <body>
+        <header>
+            <div id="header">
+                <nav>
+                    <div id="nav" class="navbar navbar-fixed-top navbar-inverse">
+                        <div class="navbar-inner">
+                            <div class="container">
+                                <a class="brand" href="/">
+                                    <i class="icon-cloud"></i>
+                                    JsFlickrGallery
+                                </a>
+                                <ul class="nav">
+                                    <li>
+                                        <a href="/"><i class="icon-chevron-left"></i> Back</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </header>
+        <div id="content" class="container">
+            <article>
+                <section>
+                    <div class="row">
+                        <div class="span12">
+                            <h1>Gallery Without Fetching Photos From Flickr</h1>
+                            <div class="js-flickr-gallery" data-tags="red cars" data-per-page="30">
+                                <ul class="thumbnails">
+                                    <li class="span1">
+                                        <a href="../img/example/1.jpg" 
+                                           title="Example Image 1" class="thumbnail" target="_blank">
+                                            <img alt="Example Image 1" 
+                                                 src="../img/example/1_min.jpg">
+                                        </a>
+                                    </li>
+                                    <li class="span1">
+                                        <a href="../img/example/2.jpg" 
+                                           title="Example Image 2" class="thumbnail" target="_blank">
+                                            <img alt="Example Image 2" 
+                                                 src="../img/example/2_min.jpg">
+                                        </a>
+                                    </li>
+                                    <li class="span1">
+                                        <a href="../img/example/3.jpg" 
+                                           title="Example Image 3" class="thumbnail" target="_blank">
+                                            <img alt="Example Image 3" 
+                                                 src="../img/example/3_min.jpg">
+                                        </a>
+                                    </li>
+                                    <li class="span1">
+                                        <a href="../img/example/4.jpg" 
+                                           title="Example Image 4" class="thumbnail" target="_blank">
+                                            <img alt="Example Image 4" 
+                                                 src="../img/example/4_min.jpg">
+                                        </a>
+                                    </li>
+                                    <li class="span1">
+                                        <a href="../img/example/5.jpg" 
+                                           title="Example Image 5" class="thumbnail" target="_blank">
+                                            <img alt="Example Image 5" 
+                                                 src="../img/example/5_min.jpg">
+                                        </a>
+                                    </li>
+                                    <li class="span1">
+                                        <a href="../img/example/6.jpg" 
+                                           title="Example Image 6" class="thumbnail" target="_blank">
+                                            <img alt="Example Image 6" 
+                                                 src="../img/example/6_min.jpg">
+                                        </a>
+                                    </li>
+                                    <li class="span1">
+                                        <a href="../img/example/7.jpg" 
+                                           title="Example Image 7" class="thumbnail" target="_blank">
+                                            <img alt="Example Image 7" 
+                                                 src="../img/example/1_min.jpg">
+                                        </a>
+                                    </li>
+                                    <li class="span1">
+                                        <a href="../img/example/8.jpg" 
+                                           title="Example Image 8" class="thumbnail" target="_blank">
+                                            <img alt="Example Image 8" 
+                                                 src="../img/example/8_min.jpg">
+                                        </a>
+                                    </li>
+                                    <li class="span1">
+                                        <a href="../img/example/9.jpg" 
+                                           title="Example Image 9" class="thumbnail" target="_blank">
+                                            <img alt="Example Image 9" 
+                                                 src="../img/example/9_min.jpg">
+                                        </a>
+                                    </li>
+                                    <li class="span1">
+                                        <a href="../img/example/10.jpg" 
+                                           title="Example Image 10" class="thumbnail" target="_blank">
+                                            <img alt="Example Image 10" 
+                                                 src="../img/example/10_min.jpg">
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </article>
+            
+        </div>
+    </body>
+</html>
