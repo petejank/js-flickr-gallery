@@ -1,7 +1,7 @@
 /** 
  * @projectDescription JsFlickrGallery - Simple JavaScript Flickr gallery, http://petejank.github.io/js-flickr-gallery/
  * 
- * @version 1.0.0
+ * @version 1.0.1
  * @author   Peter Jankowski http://likeadev.com
  * @license  MIT license.
  */
@@ -9,9 +9,16 @@
     'use strict';
 
     // "Constants"
-    var FORMAT = 'json', 
-        METHOD = 'flickr.photos.search', 
-        API_KEY = '62525ee8c8d131d708d33d61f29434b6';
+    var FORMAT = 'json',
+        METHOD = 'flickr.photos.search',
+        API_KEY = '62525ee8c8d131d708d33d61f29434b6',
+        DATA_TAGS_ATTR = 'data-tags',
+        DATA_USER_ID_ATTR = 'data-user-id',
+        DATA_PER_PAGE_ATTR = 'data-per-page',
+        DATA_GALLERY_ID_ATTR = 'data-gallery-id',
+        RESPONSIVE_WIDTH = 767,
+        FLICKR_REQUEST_TIMEOUT = 10000,
+        DATA_TOGGLE_ATTR = 'jsfg';
 
     // Plugin name declaration
     var pluginName = 'jsFlickrGallery', 
@@ -51,9 +58,11 @@
             },
             'loader' : { // false to disable
                 'animation' : true,
+                'loaderClass' : 'jsfg-loader',
                 'text' : 'Loading',
                 'interval' : 200,
                 'mark' : '.',
+                'markClass': 'animation-marks',
                 'maxMarks' : 3
             },
             'url' : {
@@ -176,15 +185,15 @@
 
             // Set displayed page
             this.options.url.page = this.page = page || this.page;
-            // Get tags for _this element
-            this.options.url.tags = this.$element.attr('data-tags') || this.options.url.tags;
+            // Get tags for self element
+            this.options.url.tags = this.$element.attr(DATA_TAGS_ATTR) || this.options.url.tags;
             // Check if only certain user photos should be fetched
-            this.options.url.user_id = this.$element.attr('data-user-id') || this.options.url.user_id;
+            this.options.url.user_id = this.$element.attr(DATA_USER_ID_ATTR) || this.options.url.user_id;
             if ( !this.options.url.user_id ) {
                 delete this.options.url.user_id;
             }
             // How many photos should be fetched?
-            this.options.url.per_page = this.$element.attr('data-per-page') || this.options.url.per_page;
+            this.options.url.per_page = this.$element.attr(DATA_PER_PAGE_ATTR) || this.options.url.per_page;
 
             // Get images using ajax and display them on success
             this._getPhotos();
@@ -202,7 +211,7 @@
          */
         clearGallery : function( ) {
             var $galleryEl = $('ul.' + this.options.structure.ulClass, this.$element),  
-                 _this = this;
+                 self = this;
             switch( this.options.animation ) 
             {
                 case 'fade':
@@ -229,8 +238,8 @@
              * @memberOf Plugin
              */
             function _replaceWithLoader() {
-                if ( _this.options.loader ) {
-                    _this.loaderInterval = _this._createLoader( _this.$element );
+                if ( self.options.loader ) {
+                    self.loaderInterval = self._createLoader( self.$element );
                 }
                 
                 $galleryEl.remove();
@@ -320,20 +329,20 @@
          * @memberOf Plugin
          */
         _getPhotos : function( ) {
-            var _this = this;
+            var self = this;
             $.ajax({
                 type: 'GET',
-                url: _this.options.apiUrl,
-                data: _this.options.url,
+                url: self.options.apiUrl,
+                data: self.options.url,
                 dataType: 'jsonp',
-                timeout: 10000
+                timeout: FLICKR_REQUEST_TIMEOUT
             }).done(function( data ) {
                  // Once data is returned, create gallery instance
-                _this._renderGalleryContent( data.photos );
-            }).always(function(data, textStatus) {
+                self._renderGalleryContent( data.photos );
+            }).always(function( data, textStatus ) {
                 // Try again
                 if (textStatus === 'timeout') {
-                    _this._getPhotos();    
+                    self._getPhotos();    
                 }
             });
         },
@@ -348,7 +357,7 @@
          * @memberOf Plugin
          */
         _renderGalleryContent : function( photos ) {
-            var _this = this, 
+            var self = this, 
                 $images, 
                 $ul, 
                 listItems = '', 
@@ -360,7 +369,7 @@
             // Check if there's more than one gallery item returned
             if ( photos.photo.length > 0 ) {
                 // Gallery is hidden by default for image loading purposes
-                $ul = $( '<ul ' + ( _this.options.structure.ulClass ? 'class="' + _this.options.structure.ulClass + 
+                $ul = $( '<ul ' + ( self.options.structure.ulClass ? 'class="' + self.options.structure.ulClass + 
                             '"' : null ) + ' style="display: none">' );
 
                 for ( var i = 0; i < photos.photo.length; i++ ) {
@@ -369,13 +378,13 @@
                             photos.photo[i].secret + '_';
                     title = this._htmlEscape(photos.photo[i].title);
                     listItems += 
-                        '<li ' + ( _this.options.structure.liClass ? 'class="' + 
-                                    _this.options.structure.liClass + '"' : null ) + '>' + 
-                            '<a href="' + link + _this.options.imageSize + '.jpg" title="' + title + 
-                                '"' + ( _this.options.structure.aClass ? 'class="' + 
-                                        _this.options.structure.aClass + '"' : null ) + '  target="_blank">' + 
+                        '<li ' + ( self.options.structure.liClass ? 'class="' + 
+                                    self.options.structure.liClass + '"' : null ) + '>' + 
+                            '<a href="' + link + self.options.imageSize + '.jpg" title="' + title + 
+                                '"' + ( self.options.structure.aClass ? 'class="' + 
+                                        self.options.structure.aClass + '"' : null ) + '  target="_blank">' + 
                                 '<img alt="' + title + '" src="' + link + 
-                                            _this.options.thumbnailSize +
+                                            self.options.thumbnailSize +
                                 '.jpg"/>' + 
                             '</a>' + 
                     '</li>';
@@ -383,29 +392,29 @@
                 }
 
                 // Append thumbnails
-                _this.$element.prepend( $ul.append( listItems ) );
+                self.$element.prepend( $ul.append( listItems ) );
                 $images = $ul.find( 'img' );
                 // Error handling
                 $images.on( 'error', function() {
                     var $this = $( this ), 
-                        src = $this.prop( 'src' );
+                        src = $this.attr( 'src' );
                         
-                    $this.prop( 'src', null ).prop( 'src', src );
+                    $this.attr( 'src', null ).attr( 'src', src );
                 });
                 // Attach load listener for thumbnails
                 $images.on('load', function() {
                     loadedImg++;
                     if ( loadedImg === photos.photo.length ) {
                         // All images loaded, remove loader and display gallery content
-                        _this._removeLoader( _this.$element );
+                        self._removeLoader( self.$element );
                         // Check for entry animation switch
-                        switch( _this.options.animation ) 
+                        switch( self.options.animation ) 
                         {
                             case 'fade':
-                                $ul.fadeIn( _this.options.animationSpeed );
+                                $ul.fadeIn( self.options.animationSpeed );
                                 break;
                             case 'show':
-                                $ul.show( _this.options.animationSpeed );
+                                $ul.show( self.options.animationSpeed );
                                 break;
                             case false:
                                 $ul.show();
@@ -413,19 +422,19 @@
                         // Remove event listener
                         $images.off( 'load' ).off( 'error' );
                         // Assign anchors selector to local instance
-                        _this.$anchors = $( _this.anchors, _this.$element );
+                        self.$anchors = $( self.anchors, self.$element );
                         // Toggle pagination
-                        _this._togglePagination();
+                        self._togglePagination();
                     }
                 });
             } else {
-                _this.$element.prepend( '<span class="' + _this.options.error.tagClass + '">' + 
-                                        _this.options.error.text + '</span>' );
+                self.$element.prepend( '<span class="' + self.options.error.tagClass + '">' + 
+                                        self.options.error.text + '</span>' );
                                 
-                _this._removeLoader( _this.$element )._togglePagination();
+                self._removeLoader( self.$element )._togglePagination();
             }
             
-            return _this;
+            return self;
         },
                 
         /**
@@ -483,7 +492,7 @@
          * @memberOf Plugin
          */
         _bindPaginationEvents : function() {
-            var _this = this, 
+            var self = this, 
                 $prev = $( this.options.pagination.prev, this.paginationContext ), 
                 $next = $( this.options.pagination.next, this.paginationContext )
               ;
@@ -493,7 +502,7 @@
                 if ( !$prev.is( ':disabled' ) ) {
                     $next.attr( 'disabled', 'disabled' );
                     $prev.attr( 'disabled', 'disabled' );
-                    _this.prevPage();
+                    self.prevPage();
                 }
             });
 
@@ -502,7 +511,7 @@
                 if ( !$next.is( ':disabled' ) ) {
                     $prev.attr( 'disabled' , 'disabled' );
                     $next.attr( 'disabled', 'disabled' );
-                    _this.nextPage();
+                    self.nextPage();
                 }
             });
         },
@@ -583,7 +592,7 @@
          * @memberOf Plugin
          */
         _bindModalEvents : function() {
-            var _this = this, 
+            var self = this, 
                 next = this.options.modal.onContainerNext ? this.options.modal.next + ', ' + 
                        this.options.modal.imageContainer : this.options.modal.next, 
                 $modal, 
@@ -594,20 +603,20 @@
             this.$element.on( 'click', this.anchors, function( event ) {
                 event.preventDefault();
                 // Assign gallery id to modal window
-                $( '#' + _this.options.modal.id ).attr( 'data-gallery-id', _this.galleryId );     
+                $( '#' + self.options.modal.id ).attr( DATA_GALLERY_ID_ATTR, self.galleryId );     
                 // Also assign index to plugin instance
-                _this.index = _this.$anchors.find( 'img' ).index( $( this ).find( 'img' ) );
-                _this._loadImage( true );
+                self.index = self.$anchors.find( 'img' ).index( $( this ).find( 'img' ) );
+                self._loadImage( true );
             });
             
-            $modal = $( '#' + _this.options.modal.id );
+            $modal = $( '#' + self.options.modal.id );
             
             // Next image in modal
             $( next, context ).click(function( event ) {
                 event.preventDefault();
                 // Check if this click listener should be triggered
-                if ( $modal.attr( 'data-gallery-id' ) === _this.galleryId ) {
-                    _this.nextImage();
+                if ( $modal.attr( DATA_GALLERY_ID_ATTR ) === self.galleryId ) {
+                    self.nextImage();
                 }
             });
 
@@ -615,8 +624,8 @@
             $( this.options.modal.prev, context ).click(function( event ) {
                 event.preventDefault();
                 // Check if this click listener should be triggered
-                if ( $modal.attr( 'data-gallery-id' ) === _this.galleryId ) {
-                    _this.prevImage();
+                if ( $modal.attr( DATA_GALLERY_ID_ATTR ) === self.galleryId ) {
+                    self.prevImage();
                 }
             });       
             
@@ -633,23 +642,18 @@
          * @memberOf Plugin
          */
         _loadImage : function( showModal ) {
-            var _this = this, 
+            var self = this, 
                 $modal = $( '#' + this.options.modal.id ), 
                 $modalTitle = $( this.options.modal.title, $modal ), 
-                imageIndex = _this.index, 
+                imageIndex = self.index, 
                 $imageAnchor = $( this.$anchors[ this.index ] ), 
-                $image = $( '<img style="display: none" alt="' + $imageAnchor.attr( 'title' ) + 
-                            '" src="' + $imageAnchor.attr('href') +  '"/>' ), 
+                $image = $( '<img/>' ), 
                 $imageContainer = $( this.options.modal.imageContainer, $modal ),
                 $window = $( window )
               ;
 
             // Hide image container content
             $imageContainer.children().hide();
-            if ( !$image[0].complete ) {
-                // Start loading of clicked image in modal
-                this.loaderInterval = this._createLoader( $imageContainer );
-            } 
             
             // Set modal window title
             $modalTitle.text( $imageAnchor.attr( 'title' ) );
@@ -660,30 +664,30 @@
             
             // Error handling
             $image.on( 'error', function() {
-                $image.prop('src', null).prop('src', $imageAnchor.attr('href'));
+                $image.prop( 'src', null ).prop( 'src', $imageAnchor.attr( 'href' ) );
             });
             
             // Wait for image to load
             $image.on( 'load', function() {
                 // Check if image is already loading
-                if ( _this.index === imageIndex ) {
+                if ( self.index === imageIndex ) {
                     // Clear all image container children BESIDE added image
                     $imageContainer.children().remove();
                     // Disable loader
-                    _this._removeLoader( $imageContainer );
+                    self._removeLoader( $imageContainer );
                     
                     // Resize image to fit box
-                    $image = _this._resizeToFit( $image, $window );
-                    $modalTitle.width( $image[0].width );
-                    
+                    $image = self._resizeToFit( $image, $window );
+                    $modalTitle.width( $image.prop('width') );
+            
                     // Resize image container to it's content
-                    $imageContainer.height( $image[0].height ).width( $image[0].width );
+                    $imageContainer.height( $image.prop('height') ).width( $image.prop('width') );
                     
                     // Append image to image container
-                    $image.appendTo( _this.options.modal.imageContainer );
+                    $image.appendTo( self.options.modal.imageContainer );
                     
                     // If not responsive - center on both axes
-                    if ( $window.width() > 767 ) {
+                    if ( $window.width() > RESPONSIVE_WIDTH ) {
                         $modal.css( 'top', '' );
                         ( $.support.transition ? $modal.animate : $modal.css ).call( $modal.stop(), {
                             'margin-left' : -$modal.outerWidth() / 2,
@@ -698,16 +702,21 @@
                         });
                     }
                     // Fade image in and center modal
-                    $image.fadeIn( _this.options.modal.imageFadeTime );
+                    $image.fadeIn( self.options.modal.imageFadeTime );
                     // Cache near images
-                    if ( _this.options.preload ) {
-                        _this._preloadImages();
+                    if ( self.options.preload ) {
+                        self._preloadImages();
                     }
-                    
                 }
                 
-                $image.off('load').off('error');
+                $image.off( 'load' ).off( 'error' );
             });
+            
+            $image.prop( 'src', $imageAnchor.attr( 'href' ) ).attr( 'alt', $imageAnchor.attr( 'title' ) );;
+            if ( !$image[ 0 ].complete ) {
+                // Display loader
+                this.loaderInterval = this._createLoader( $imageContainer );
+            } 
             
             return this;
         },
@@ -730,7 +739,7 @@
             for ( i = minIndex; i < maxIndex; i++ ) {
                 anchor = this.$anchors[ i ];
                 if ( anchor && i !== this.index ) {
-                    $( document.createElement('img') ).prop( 'src', anchor.href || $( anchor ).attr( 'href' ) );
+                    $( document.createElement( 'img' ) ).attr( 'src', anchor.href || $( anchor ).attr( 'href' ) );
                 }
             }
             
@@ -750,18 +759,19 @@
         _resizeToFit : function( $image, $element ) {
             var scale = 1, 
                 maxWidth, 
-                maxHeight
+                maxHeight,
+                imgWidth = $image.prop( 'width' ),
+                imgHeight = $image.prop( 'height' )
               ;
-                
+              
             // Scale image to fit page
             maxWidth = $element.width() - this.options.modal.offsetWidth;
             maxHeight = $element.height() - this.options.modal.offsetHeight;
-            if ( $image[ 0 ].width > maxWidth || $image[ 0 ].height > maxHeight ) {
-                scale = Math.min( maxWidth / $image[ 0 ].width, maxHeight / $image[ 0 ].height);
+            if ( imgWidth > maxWidth || imgHeight > maxHeight ) {
+                scale = Math.min( maxWidth / imgWidth, maxHeight / imgHeight );
             } 
 
-            $image[ 0 ].width *= scale;
-            $image[ 0 ].height *= scale;
+            $image.prop( 'width', imgWidth * scale ).prop( 'height', imgHeight * scale );
             
             return $image;
         },
@@ -777,12 +787,13 @@
          * @memberOf Plugin
          */
         _createLoader : function( $element ) {
-            var $loaderMarks = $( '<span class="animation-marks"></span>' ), 
+            var $loaderMarks = $( '<span class="' + this.options.loader.markClass + '"></span>' ), 
                 options = this.options;
             
             // Add loader node to gallery container
             $element.prepend(
-                $( '<p class="jsfg-loader">' + options.loader.text + '</span>' ).append( $loaderMarks )
+                $( '<p class="' + options.loader.loaderClass + '">' + options.loader.text + '</span>' )
+                    .append( $loaderMarks )
             );
 
             if (options.loader.animation) {
@@ -809,7 +820,7 @@
          */
         _removeLoader : function( $element ) {
             if ( this.loaderInterval ) {
-                $element.children( '.jsfg-loader' ).remove();
+                $element.children( '.' + this.options.loader.loaderClass ).remove();
                 clearInterval( this.loaderInterval );
             }
             
@@ -828,7 +839,7 @@
 
     // Automatically attach jsFlickrGallery 
     $(function () {
-        $( '[data-toggle="jsfg"]' ).jsFlickrGallery();
+        $( '[data-toggle="' + DATA_TOGGLE_ATTR + '"]' ).jsFlickrGallery();
     });
     
 })( jQuery, window, document );
