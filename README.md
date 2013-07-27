@@ -1,4 +1,4 @@
-JsFlickrGallery 1.0.1
+JsFlickrGallery 1.1
 =============
 
 JsFlickrGallery is a [Flickr](http://flickr.com) based gallery 
@@ -16,7 +16,9 @@ is available at [http://petejank.github.io/js-flickr-gallery/](http://petejank.g
 Requirements
 -------------
 [jQuery (1.7+)](http://jquery.com)  
-[Bootstrap Modal (2.2+)](http://twitter.github.io/bootstrap/javascript.html#modals)
+[Bootstrap Modal (2.2+)](http://twitter.github.io/bootstrap/javascript/#modals)  
+[Bootstrap Transitions (2.2+)](http://twitter.github.io/bootstrap/javascript/#transitions)
+or any other transition support detection for $.support.transition
 
 License
 -------------
