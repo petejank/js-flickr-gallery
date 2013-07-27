@@ -1,7 +1,8 @@
 /** 
- * @projectDescription JsFlickrGallery - Simple JavaScript Flickr gallery, http://petejank.github.io/js-flickr-gallery/
+ * @projectDescription JsFlickrGallery - Simple JavaScript Flickr gallery, 
+ * http://petejank.github.io/js-flickr-gallery/
  * 
- * @version 1.0.1
+ * @version 1.1
  * @author   Peter Jankowski http://likeadev.com
  * @license  MIT license.
  */
@@ -12,14 +13,23 @@
     var FORMAT = 'json',
         METHOD = 'flickr.photos.search',
         API_KEY = '62525ee8c8d131d708d33d61f29434b6',
+        // Tag attributes
         DATA_TAGS_ATTR = 'data-tags',
         DATA_USER_ID_ATTR = 'data-user-id',
         DATA_PER_PAGE_ATTR = 'data-per-page',
         DATA_GALLERY_ID_ATTR = 'data-gallery-id',
+        DATA_TOGGLE_ATTR = 'jsfg',
+        // Minor stuff
         RESPONSIVE_WIDTH = 767,
         FLICKR_REQUEST_TIMEOUT = 10000,
-        DATA_TOGGLE_ATTR = 'jsfg';
-
+        // Generated modal window stuff
+        GEN_HEADER_CONTAINER_CLASS = 'modal-header',
+        GEN_TITLE_TAG = 'h3',
+        GEN_BODY_CONTAINER_CLASS = 'modal-body',
+        GEN_IMAGE_CONTAINER_CLASS = 'modal-image',
+        GEN_FOOTER_CONTAINER_CLASS = 'modal-footer'
+      ;
+    
     // Plugin name declaration
     var pluginName = 'jsFlickrGallery', 
         defaults = {
@@ -37,12 +47,12 @@
             'modal' : { // false to disable
                 'generate' : true,
                 'id' : 'jsfg-modal',
-                'title' : '.modal-header h3',
-                'imageContainer' : '.modal-body .modal-image',
+                'title' : '.' + GEN_HEADER_CONTAINER_CLASS + ' ' + GEN_TITLE_TAG,
+                'imageContainerClass' : '.' + GEN_IMAGE_CONTAINER_CLASS,
                 'onContainerNext' : true,
                 'imageFadeTime' : 250,
-                'prev' : '.modal-prev',
-                'next' : '.modal-next',
+                'prevClass' : '.btn.modal-prev',
+                'nextClass' : '.btn.modal-next',
                 'prevText' : 'Previous image',
                 'nextText' : 'Next image',
                 'offsetWidth' : 100,
@@ -50,19 +60,19 @@
             },
             'pagination' : { // false to disable
                 'generate' : true,
-                'containerClass' : 'pagination',
-                'prev' : '.pagination-prev',
-                'next' : '.pagination-next',
+                'containerClass' : '.pagination',
+                'prevClass' : '.btn.pagination-prev',
+                'nextClass' : '.btn.pagination-next',
                 'prevText' : 'Previous page',
                 'nextText' : 'Next page'
             },
             'loader' : { // false to disable
                 'animation' : true,
-                'loaderClass' : 'jsfg-loader',
+                'loaderClass' : '.jsfg-loader',
                 'text' : 'Loading',
                 'interval' : 200,
                 'mark' : '.',
-                'markClass': 'animation-marks',
+                'markClass': '.animation-marks',
                 'maxMarks' : 3
             },
             'url' : {
@@ -111,12 +121,6 @@
         if ( !this.options.thumbnailSize && !this.options.imageSize ) { 
             this.options.setDefaultSize();
         }
-
-        // Combine anchor selection string
-        this.anchors = 'ul' + ( this.options.structure.ulClass ? '.' + 
-                                this.options.structure.ulClass : null ) + 
-                       ' li a' + ( this.options.structure.aClass ? '.' + 
-                                this.options.structure.aClass : null );
         
         // Assign gallery instance id
         this.galleryId = this.element.id || Math.random().toString( 36 );
@@ -130,8 +134,7 @@
     Plugin.prototype = {
         
         /**
-         * Called at the end of the constructor. Creates gallery structure
-         * for the node
+         * Creates gallery structure for the node
          * 
          * @return void
          * @method
@@ -141,13 +144,13 @@
             if ( this.options.fetchImages ) {
                 // Add gallery loader if available
                 if ( this.options.loader ) {
-                    this.loaderInterval = this._createLoader(this.$element);
+                    this.loaderInterval = this._createLoader(this.element);
                 }
                 
                 this.createGallery(); // async, rest of the init code will be shot before this
             } else {
                 // Assign anchors selector to local instance
-                this.$anchors = $( this.anchors, this.$element );
+                this.anchors = this._getAnchors();
             }
             
             if ( this.options.pagination && this.options.fetchImages ) {
@@ -204,30 +207,28 @@
         /**
          * Hide gallery items and remove them
          * 
-         * @param boolean loader
          * @return Plugin
          * @method
          * @memberOf Plugin
          */
-        clearGallery : function( ) {
-            var $galleryEl = $('ul.' + this.options.structure.ulClass, this.$element),  
-                 self = this;
+        clearGallery : function() {
+            var galleryEl = this.element.getElementsByClassName( 
+                    this._replaceDots( this.options.structure.ulClass ) 
+                ).item(0),  
+                $galleryEl = $( galleryEl ),
+                self = this
+              ;
+         
             switch( this.options.animation ) 
             {
                 case 'fade':
-                    $galleryEl.fadeOut( this.options.animationSpeed, function() {
-                        _replaceWithLoader();
-                    });
+                    $galleryEl.fadeOut( this.options.animationSpeed, _replaceWithLoader );
                     break;
                 case 'show':
-                    $galleryEl.hide( this.options.animationSpeed, function() {
-                        _replaceWithLoader();
-                    });
+                    $galleryEl.hide( this.options.animationSpeed, _replaceWithLoader );
                     break;
                 case false:
-                    $galleryEl.hide( 0 , function() {
-                        _replaceWithLoader();
-                    });
+                    $galleryEl.hide( 0 , _replaceWithLoader );
             }
             
             /**
@@ -239,10 +240,10 @@
              */
             function _replaceWithLoader() {
                 if ( self.options.loader ) {
-                    self.loaderInterval = self._createLoader( self.$element );
+                    self.loaderInterval = self._createLoader( self.element );
                 }
                 
-                $galleryEl.remove();
+                galleryEl.parentNode.removeChild( galleryEl );
             }
             
             return this;
@@ -256,7 +257,14 @@
          * @memberOf Plugin
          */
         isLastPage : function() {
-            return this.$element.children( 'ul' ).find('li').length < this.options.url.per_page;
+            var galleryItems = this.element.getElementsByTagName( 'ul' );
+            if (galleryItems.length !== 0) {
+                if (galleryItems.item(0).getElementsByTagName( 'li' ).length < this.options.url.per_page) {
+                    return true;
+                }
+            }
+            
+            return false;
         },
                 
         /**
@@ -290,7 +298,7 @@
         },
                 
         /**
-         * Diplay previous gallery image in modal window
+         * Display previous gallery image in modal window
          * 
          * @return Plugin
          * @method
@@ -299,7 +307,7 @@
         prevImage : function() {
             this.index -= 1;
             if (this.index < 0) {
-                this.index = this.$anchors.length - 1;
+                this.index = this.anchors.length - 1;
             }
             
             return this._loadImage( false );
@@ -314,7 +322,7 @@
          */
         nextImage : function() {
             this.index += 1;
-            if ( this.index > this.$anchors.length - 1 ) {
+            if ( this.index > this.anchors.length - 1 ) {
                 this.index = 0;
             }
 
@@ -348,7 +356,7 @@
         },
         
         /**
-         * Create and render gallery instance. Not for public consumption. Not for public consumption
+         * Create and render gallery instance. Not for public consumption
          * 
          * @param Array photos
          * @return Plugin
@@ -363,36 +371,39 @@
                 listItems = '', 
                 loadedImg = 0, 
                 link, 
-                title
-               ;
+                title,
+                error
+              ;
                 
             // Check if there's more than one gallery item returned
             if ( photos.photo.length > 0 ) {
                 // Gallery is hidden by default for image loading purposes
-                $ul = $( '<ul ' + ( self.options.structure.ulClass ? 'class="' + self.options.structure.ulClass + 
-                            '"' : null ) + ' style="display: none">' );
+                $ul = $( '<ul ' + ( self.options.structure.ulClass ? 'class="' + 
+                                    self.options.structure.ulClass + '"' : null ) + 
+                                    ' style="display: none">' );
 
                 for ( var i = 0; i < photos.photo.length; i++ ) {
                     link = 'http://farm' + photos.photo[i].farm + 
                             '.static.flickr.com/' + photos.photo[i].server + '/' + photos.photo[i].id + '_' + 
                             photos.photo[i].secret + '_';
-                    title = this._htmlEscape(photos.photo[i].title);
+                    title = this._htmlEscape( photos.photo[i].title );
                     listItems += 
                         '<li ' + ( self.options.structure.liClass ? 'class="' + 
-                                    self.options.structure.liClass + '"' : null ) + '>' + 
+                                   self.options.structure.liClass + '"' : null ) + '>' + 
                             '<a href="' + link + self.options.imageSize + '.jpg" title="' + title + 
                                 '"' + ( self.options.structure.aClass ? 'class="' + 
-                                        self.options.structure.aClass + '"' : null ) + '  target="_blank">' + 
+                                        self.options.structure.aClass + '"' : null ) +
+                                        ' target="_blank">' + 
                                 '<img alt="' + title + '" src="' + link + 
-                                            self.options.thumbnailSize +
+                                        self.options.thumbnailSize +
                                 '.jpg"/>' + 
                             '</a>' + 
                     '</li>';
   
                 }
-
                 // Append thumbnails
-                self.$element.prepend( $ul.append( listItems ) );
+                self.element.insertBefore($ul.append( listItems )[0], self.element.firstChild);
+                
                 $images = $ul.find( 'img' );
                 // Error handling
                 $images.on( 'error', function() {
@@ -406,7 +417,7 @@
                     loadedImg++;
                     if ( loadedImg === photos.photo.length ) {
                         // All images loaded, remove loader and display gallery content
-                        self._removeLoader( self.$element );
+                        self._removeLoader( self.element );
                         // Check for entry animation switch
                         switch( self.options.animation ) 
                         {
@@ -422,40 +433,27 @@
                         // Remove event listener
                         $images.off( 'load' ).off( 'error' );
                         // Assign anchors selector to local instance
-                        self.$anchors = $( self.anchors, self.$element );
+                        self.anchors = self._getAnchors();
                         // Toggle pagination
                         self._togglePagination();
                     }
                 });
             } else {
-                self.$element.prepend( '<span class="' + self.options.error.tagClass + '">' + 
-                                        self.options.error.text + '</span>' );
-                                
-                self._removeLoader( self.$element )._togglePagination();
+                error = document.createElement('span');
+                error.className = self.options.error.tagClass;
+                error.innerHTML = self.options.error.text;
+                
+                // Display error message..
+                self.element.insertBefore( error, self.element.firstChild );
+                // ..and remove loader
+                self._removeLoader( self.element )._togglePagination();
             }
             
             return self;
         },
                 
         /**
-         * Escape special html characters. Not for public consumption
-         * 
-         * @return String str
-         * @private
-         * @method
-         * @memberOf Plugin
-         */
-        _htmlEscape : function( str ) {
-            return str
-                    .replace( /&/g, '&amp;' )
-                    .replace( /"/g, '&quot;' )
-                    .replace( /'/g, '&#39;' )
-                    .replace( /</g, '&lt;' )
-                    .replace( />/g, '&gt;' );
-        },
-                
-        /**
-         * Enable and optionally generate pagination buttons (when pagination -> generated is true). 
+         * Generate pagination buttons (when pagination -> generated is true). 
          * Not for public consumption
          *
          * @return Plugin
@@ -465,18 +463,20 @@
          */
         _createPagination : function() {
             var pagination = '', 
-                $prev = $( this.options.pagination.prev, this.paginationContext ), 
-                $next = $( this.options.pagination.next, this.paginationContext )
+                prev = this.paginationContext.getElementsByClassName( this.options.pagination.prevClass ), 
+                next = this.paginationContext.getElementsByClassName( this.options.pagination.nextClass )
               ;
-             
-            if ( $prev.length === 0 && $next.length === 0 && this.options.pagination.generate ) {
-                pagination += '<div class="' + this.options.pagination.containerClass + '">' +
-                                '<button ' + 'class="btn' + this.options.pagination.prev.replace( /\./g, ' ' ) + '" ' +
+        
+            if ( prev.length === 0 && next.length === 0 && this.options.pagination.generate ) {
+                pagination += '<div class="' + this._replaceDots( this.options.pagination.containerClass ) + '">' +
+                                '<button ' + 'class="' +
+                                    this._replaceDots( this.options.pagination.prevClass ) + '" ' +
                                     'title="' + this.options.pagination.prevText + '" ' + 
-                                    ( this.page === 1 ? 'disabled="disabled" ' : null ) + ' >&laquo;</button>' +
-                                '<button ' + 'class="btn' + this.options.pagination.next.replace( /\./g, ' ' ) + '" ' + 
+                                    'disabled="disabled">&laquo;</button>' +
+                                '<button ' + 'class="' +
+                                    this._replaceDots( this.options.pagination.nextClass ) + '" ' + 
                                     'title="' + this.options.pagination.nextText + '" ' + 
-                                    ( this.isLastPage() ? ' disabled="disabled" ' : null ) + '>&raquo;</button>' + 
+                                    'disabled="disabled">&raquo;</button>' + 
                               '</div>';
                 this.$element.append( pagination );
             }            
@@ -485,7 +485,7 @@
         },
                 
         /**
-         * Bind modal pagination control events
+         * Bind modal pagination control events. Not for public consumption
          * 
          * @return Plugin
          * @private
@@ -493,8 +493,8 @@
          */
         _bindPaginationEvents : function() {
             var self = this, 
-                $prev = $( this.options.pagination.prev, this.paginationContext ), 
-                $next = $( this.options.pagination.next, this.paginationContext )
+                $prev = $( this.options.pagination.prevClass, this.paginationContext ), 
+                $next = $( this.options.pagination.nextClass, this.paginationContext )
               ;
               
             // Previous page action
@@ -525,16 +525,19 @@
          * @memberOf Plugin
          */
         _togglePagination : function() {
+            var $prev = $( this.options.pagination.prevClass, this.paginationContext ),
+                $next = $( this.options.pagination.nextClass, this.paginationContext );
+            
             if ( this.page !== 1 ) {
-                $( this.options.pagination.prev, this.paginationContext ).removeAttr( 'disabled' );
+                $prev.removeAttr( 'disabled' );
             } else {
-                $( this.options.pagination.prev, this.paginationContext ).attr( 'disabled', 'disabled' );
+                $prev.attr( 'disabled', 'disabled' );
             }
             
             if ( !this.isLastPage() ) {
-                $( this.options.pagination.next, this.paginationContext ).removeAttr( 'disabled' );
+                $next.removeAttr( 'disabled' );
             } else {
-                $( this.options.pagination.next, this.paginationContext ).attr( 'disabled', 'disabled' );
+                $next.attr( 'disabled', 'disabled' );
             }
             
             return this;
@@ -552,32 +555,35 @@
             // Check if modal structure is already available
             var header, 
                 body, 
-                footer
+                footer,
+                modal
               ;
                                 
-            if ( $( '#' + this.options.modal.id ).length === 0 ) {
-                header = '<div class="modal-header">' +
+            if ( !document.getElementById( this.options.modal.id ) ) {
+                header = '<div class="' + GEN_HEADER_CONTAINER_CLASS + '">' +
                             '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">' +
                             '&times;</button>' +
-                            '<h3></h3>' +
-                         '</div>',
-                body = '<div class="modal-body">' + 
-                            '<div class="modal-image"></div>' + 
-                        '</div>',
-                footer = '<div class="modal-footer">' +
+                            '<' + GEN_TITLE_TAG + '></' + GEN_TITLE_TAG + '>' +
+                         '</div>';
+                body = '<div class="' + GEN_BODY_CONTAINER_CLASS + '">' + 
+                            '<div class="' + GEN_IMAGE_CONTAINER_CLASS + '"></div>' + 
+                       '</div>';
+                footer = '<div class="' + GEN_FOOTER_CONTAINER_CLASS + '">' +
                             '<button title="' + this.options.modal.prevText + 
-                                '" class="btn' + this.options.modal.prev.replace(/\./g, ' ') + 
+                                '" class="' + this._replaceDots( this.options.modal.prevClass ) + 
                                 '">&laquo;</button>' +
                             '<button title="' + this.options.modal.nextText + 
-                                '" class="btn btn-primary' + this.options.modal.next.replace(/\./g, ' ') + 
+                                '" class="' + this._replaceDots( this.options.modal.nextClass ) + 
                                 '">&raquo;</button>' +
-                            '</div>';   
+                         '</div>';   
 
-                // Append modal to body         
-                $( 'body' ).append( '<div id="' + this.options.modal.id + 
-                                    '" class="modal jsfg-modal hide fade">' + 
-                                        header + body + footer + 
-                                    '</div>' );
+                // Append modal to body   
+                modal = document.createElement( 'div' );
+                modal.id = this.options.modal.id;
+                modal.className = 'modal jsfg-modal hide fade';
+                modal.innerHTML = header + body + footer;
+              
+                document.body.appendChild( modal );
             }
             
             return this;
@@ -593,23 +599,30 @@
          */
         _bindModalEvents : function() {
             var self = this, 
-                next = this.options.modal.onContainerNext ? this.options.modal.next + ', ' + 
-                       this.options.modal.imageContainer : this.options.modal.next, 
-                $modal, 
+                next = this.options.modal.onContainerNext ? this.options.modal.nextClass + ', ' + 
+                       this.options.modal.imageContainerClass : this.options.modal.nextClass, 
+                $modal = $( '#' + self.options.modal.id ), 
                 context = '#' + this.options.modal.id
               ;
               
             // Bind on thumbnail click event
-            this.$element.on( 'click', this.anchors, function( event ) {
+            this.$element.on( 'click', 'a.' + this.options.structure.aClass, function( event ) {
+                var i;
+                
                 event.preventDefault();
+                
                 // Assign gallery id to modal window
-                $( '#' + self.options.modal.id ).attr( DATA_GALLERY_ID_ATTR, self.galleryId );     
+                $modal.attr( DATA_GALLERY_ID_ATTR, self.galleryId );     
                 // Also assign index to plugin instance
-                self.index = self.$anchors.find( 'img' ).index( $( this ).find( 'img' ) );
+                
+                for ( i = 0; i < self.anchors.length; i++ ) {
+                    if (self.anchors.item(i) === this) {
+                        self.index = i;
+                    }
+                }
+                 
                 self._loadImage( true );
             });
-            
-            $modal = $( '#' + self.options.modal.id );
             
             // Next image in modal
             $( next, context ).click(function( event ) {
@@ -621,7 +634,7 @@
             });
 
             // Previous image in modal
-            $( this.options.modal.prev, context ).click(function( event ) {
+            $( this.options.modal.prevClass, context ).click(function( event ) {
                 event.preventDefault();
                 // Check if this click listener should be triggered
                 if ( $modal.attr( DATA_GALLERY_ID_ATTR ) === self.galleryId ) {
@@ -646,9 +659,9 @@
                 $modal = $( '#' + this.options.modal.id ), 
                 $modalTitle = $( this.options.modal.title, $modal ), 
                 imageIndex = self.index, 
-                $imageAnchor = $( this.$anchors[ this.index ] ), 
+                $imageAnchor = $( this.anchors.item( this.index ) ), 
                 $image = $( '<img/>' ), 
-                $imageContainer = $( this.options.modal.imageContainer, $modal ),
+                $imageContainer = $( this.options.modal.imageContainerClass, $modal ),
                 $window = $( window )
               ;
 
@@ -674,17 +687,17 @@
                     // Clear all image container children BESIDE added image
                     $imageContainer.children().remove();
                     // Disable loader
-                    self._removeLoader( $imageContainer );
+                    self._removeLoader( $imageContainer[ 0 ] );
                     
                     // Resize image to fit box
                     $image = self._resizeToFit( $image, $window );
-                    $modalTitle.width( $image.prop('width') );
+                    $modalTitle.width( $image.prop( 'width' ) );
             
                     // Resize image container to it's content
-                    $imageContainer.height( $image.prop('height') ).width( $image.prop('width') );
+                    $imageContainer.height( $image.prop( 'height' ) ).width( $image.prop( 'width' ) );
                     
                     // Append image to image container
-                    $image.appendTo( self.options.modal.imageContainer );
+                    $image.appendTo( $imageContainer );
                     
                     // If not responsive - center on both axes
                     if ( $window.width() > RESPONSIVE_WIDTH ) {
@@ -712,10 +725,10 @@
                 $image.off( 'load' ).off( 'error' );
             });
             
-            $image.prop( 'src', $imageAnchor.attr( 'href' ) ).attr( 'alt', $imageAnchor.attr( 'title' ) );;
+            $image.prop( 'src', $imageAnchor.attr( 'href' ) ).attr( 'alt', $imageAnchor.attr( 'title' ) );
             if ( !$image[ 0 ].complete ) {
                 // Display loader
-                this.loaderInterval = this._createLoader( $imageContainer );
+                this.loaderInterval = this._createLoader( $imageContainer[ 0 ] );
             } 
             
             return this;
@@ -730,15 +743,23 @@
          * @memberOf Plugin
          */
         _preloadImages : function() {
+            // + 1 cause we need to skip current index
             var maxIndex = this.index + this.options.preload.range + 1, 
                 minIndex = this.index - this.options.preload.range, 
                 anchor, 
-                i
-               ;
+                i,
+                tempI
+              ;
               
+            // Cap values
+            maxIndex = maxIndex > this.anchors.length ? maxIndex - this.anchors.length : maxIndex;
+            minIndex = minIndex > maxIndex ? minIndex - this.anchors.length : minIndex ;
+            
             for ( i = minIndex; i < maxIndex; i++ ) {
-                anchor = this.$anchors[ i ];
-                if ( anchor && i !== this.index ) {
+                tempI = i < 0 ? this.anchors.length + i : i;
+                
+                anchor = this.anchors.item( tempI );
+                if ( anchor && tempI !== this.index ) {
                     $( document.createElement( 'img' ) ).attr( 'src', anchor.href || $( anchor ).attr( 'href' ) );
                 }
             }
@@ -780,28 +801,32 @@
          * Display loading message and create animation interval for marks if required. Not for public 
          * consumption
          * 
-         * @param Object element
+         * @param Object $element
          * @return Object | boolean interval or true when animation disabled
          * @private
          * @method
          * @memberOf Plugin
          */
-        _createLoader : function( $element ) {
-            var $loaderMarks = $( '<span class="' + this.options.loader.markClass + '"></span>' ), 
-                options = this.options;
+        _createLoader : function( element ) {
+            var loaderMarks = document.createElement('span'),
+                loaderContainer = document.createElement('p'),
+                options = this.options
+              ;
             
+            loaderContainer.appendChild( document.createTextNode( options.loader.text ) );
+            
+            loaderContainer.className = this._replaceDots( options.loader.loaderClass );
+            
+            loaderMarks.className = this._replaceDots( options.loader.markClass );
             // Add loader node to gallery container
-            $element.prepend(
-                $( '<p class="' + options.loader.loaderClass + '">' + options.loader.text + '</span>' )
-                    .append( $loaderMarks )
-            );
+            element.insertBefore( loaderContainer.appendChild( loaderMarks ).parentNode, element.firstChild );
 
             if (options.loader.animation) {
                 return setInterval(function() {
-                    if ( $loaderMarks.text().length <= options.loader.maxMarks ) {
-                        $loaderMarks.append( options.loader.mark );
+                    if ( loaderMarks.innerHTML.length <= options.loader.maxMarks ) {
+                        loaderMarks.innerHTML += options.loader.mark;
                     } else {
-                        $loaderMarks.text( '' );
+                        loaderMarks.innerHTML = '';
                     }
                 }, options.loader.interval );
             } else {
@@ -809,6 +834,9 @@
             }
         },
                 
+        _getAnchors : function() {
+            return this.element.getElementsByClassName( this.options.structure.aClass );
+        },        
         /**
          * Remove loader instance. Not for public consumption
          * 
@@ -818,13 +846,46 @@
          * @method
          * @memberOf Plugin
          */
-        _removeLoader : function( $element ) {
-            if ( this.loaderInterval ) {
-                $element.children( '.' + this.options.loader.loaderClass ).remove();
+        _removeLoader : function( element ) {
+            var loader = element.getElementsByClassName( this._replaceDots( this.options.loader.loaderClass ) );
+            if ( this.loaderInterval && loader.length !== 0 ) {
+                element.removeChild(
+                    loader.item( 0 )
+                );
+                    
                 clearInterval( this.loaderInterval );
             }
             
             return this;
+        },
+                
+        /**
+         * Escape special html characters. Not for public consumption
+         * 
+         * @return string str
+         * @private
+         * @method
+         * @memberOf Plugin
+         */
+        _htmlEscape : function( str ) {
+            return str
+                    .replace( /&/g, '&amp;' )
+                    .replace( /"/g, '&quot;' )
+                    .replace( /'/g, '&#39;' )
+                    .replace( /</g, '&lt;' )
+                    .replace( />/g, '&gt;' );
+        },
+                
+        /**
+         * Replaces dots with whitespaces
+         * 
+         * @param string str
+         * @private
+         * @method
+         * @return string
+         */
+        _replaceDots : function( str ) {
+            return str.replace(/\./g, ' ');
         }
     };
     
