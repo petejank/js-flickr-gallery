@@ -122,7 +122,7 @@ ul.features {
     background: whitesmoke;
 }
     
-    @media (max-width: 479px) {
+    @media (max-width: 797px) {
         #content
         .table
         tr

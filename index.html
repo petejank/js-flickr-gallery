@@ -6,6 +6,12 @@
         <meta name="description" content="Easy to use and flexible JavaScript only Flickr gallery">
         <meta name="author" content="Peter Jankowski">
         <meta name="robots" content="index, follow">
+        <meta name="description" content="Javascript Flickr gallery that doesn't require any server-side implementation. Bootstrap compatible"/>
+        <meta name="keywords" content="javascript flickr gallery, without server-side, jquery flickr gallery, easy to implement flickr gallery, bootstrap flickr gallery, javascript, jquery, html, css"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <!--[if lt IE 9]>
+            <script src="js/html5shiv.js"></script>
+        <![endif]-->
         <script type="text/javascript" src="js/jquery-1.9.1.js"></script>
         <script type="text/javascript" src="js/bootstrap.js"></script>
         <script type="text/javascript" src="js/js-flickr-gallery.js"></script>
@@ -15,7 +21,7 @@
         <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css"/>
         <link rel="stylesheet" type="text/css" href="css/js-flickr-gallery.css"/>
         <link rel="stylesheet" type="text/css" href="css/style.css"/>
-        <!--[if lte IE 8]>
+        <!--[if lt IE 9]>
             <link rel="stylesheet" type="text/css" href="css/ie-style.css"/>
         <![endif]-->
     </head>
@@ -119,7 +125,7 @@
                         <div class="row">
                             <div class="span10 offset1">
                                 <div class="btn-group action-links">
-                                    <a href="https://github.com/petejank/js-flickr-gallery/archive/v1.0.1.zip"  
+                                    <a href="https://github.com/petejank/js-flickr-gallery/archive/v1.1.zip"  
                                        target="_blank" class="btn btn-primary btn-large">
                                         <i class="icon-download"></i> 
                                         Download
@@ -151,11 +157,12 @@
                                     <h2><i class="icon-wrench"></i> Usage</h2>
                                     <p>Basic usage is really simple. Just follow these steps:</p>
                                     <ol>
-                                        <li>First, <a href="https://github.com/petejank/js-flickr-gallery/archive/v1.0.1.zip" target="_blank">download</a>, or pull JsFlickrGallery from <a href="https://github.com/petejank/js-flickr-gallery" target="_blank">GitHub</a>,</li>
+                                        <li>First, <a href="https://github.com/petejank/js-flickr-gallery/archive/v1.1.zip" target="_blank">download</a>, or pull JsFlickrGallery from <a href="https://github.com/petejank/js-flickr-gallery" target="_blank">GitHub</a>,</li>
                                         <li>download <a href="http://jquery.com" target="_blank">jQuery</a> version 1.7 or higher,</li>
                                         <li><a href="http://twitter.github.io/bootstrap/" target="_blank">Boostrap Twitter</a> modal is required, so you'll 
                                             either need to fetch whole Bootstrap package or only the modal module under 
-                                            <a href="http://twitter.github.io/bootstrap/javascript.html" target="_blank">this</a> address,</li>
+                                            <a href="http://twitter.github.io/bootstrap/javascript/#modals" target="_blank">this</a> address,</li>
+                                        <li>transition detection for <code>$.support</code> is also required. Best choice would be <a href="http://twitter.github.io/bootstrap/javascript/#transitions" target="_blank">Bootstrap Transitions</a>,</li>
                                         <li>move and eventually extract fetched content - jQuery script, Bootstrap CSS and script, JsFlickrGallery 
                                             script and CSS (optional) - to your project folder,</li>
                                         <li>
@@ -227,7 +234,7 @@
                                         <h3>Attributes</h3>
                                         <p>
                                             Attributes that can be attached to gallery placeholder. All attributes 
-                                            attached to tag have higher priority than plugin options.
+                                            attached to tag have higher priority than plugin options
                                         </p>
                                         <table class="table table-bordered">
                                             <thead>
@@ -241,19 +248,19 @@
                                                     <td><code>data-tags</code></td>
                                                     <td>
                                                         Tags separated by spaces which filter images fetched from Flickr.
-                                                        This attribute is mandatory when using automatic requests.
+                                                        This attribute is mandatory when using automatic requests
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td><code>data-user-id</code></td>
                                                     <td>
-                                                        User ID from whom data should be fetched. Optional.
+                                                        User ID from whom data should be fetched. Optional
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td><code>data-per-page</code></td>
                                                     <td>
-                                                        How many photos should be displayed per page.
+                                                        How many photos should be displayed per page
                                                     </td>
                                                 </tr>
                                             </tbody>
@@ -289,7 +296,7 @@
                                                 <tr>
                                                     <td><code>clearGallery</code></td>
                                                     <td>
-                                                        loader : boolean
+                                                        -
                                                     </td>
                                                     <td>
                                                         Plugin
@@ -372,8 +379,8 @@
                                         <table class="table table-bordered">
                                             <thead>
                                                 <tr>
-                                                    <th style="width: 18%">Name</th>
-                                                    <th style="width: 10%">Type</th>    
+                                                    <th style="width: 19%">Name</th>
+                                                    <th style="width: 9%">Type</th>    
                                                     <th style="width: 20%">Default</th>
                                                     <th style="width: 52%">Description</th>    
                                                 </tr>
@@ -393,22 +400,22 @@
                                                     <td>"fade"</td>
                                                     <td>
                                                         Gallery toggle animation type. Available values: 'fade', 'show'. 
-                                                        Set false to disable.
+                                                        Set false to disable
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td><code>animationSpeed</code></td>
                                                     <td>number</td>
-                                                    <td>300</td>
+                                                    <td>250</td>
                                                     <td>
-                                                        Entry animation speed in miliseconds.
+                                                        Entry animation speed in miliseconds
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td><code>preload</code></td>
                                                     <td>object</td>
                                                     <td>-</td>
-                                                    <td>Modal window preload control mechanism. Set false to disable.</td>
+                                                    <td>Modal window preload control mechanism. Set false to disable</td>
                                                 </tr>
                                                 <tr class="light-top">
                                                     <td><i class="icon-angle-right"></i> <code>range</code></td>
@@ -451,7 +458,7 @@
                                                     <td>boolean</td>
                                                     <td>true</td>
                                                     <td>
-                                                        Should modal markup be generated.
+                                                        Should modal markup be generated
                                                     </td>
                                                 </tr>
                                                 <tr class="light-top">
@@ -464,13 +471,17 @@
                                                     <td><i class="icon-angle-right"></i> <code>title</code></td>
                                                     <td>string</td>
                                                     <td>".modal-header h3"</td>
-                                                    <td>Title container selector</td>
+                                                    <td>
+                                                        Title selector
+                                                    </td>
                                                 </tr>
                                                 <tr class="light-top">
-                                                    <td><i class="icon-angle-right"></i> <code>imageContainer</code></td>
+                                                    <td><i class="icon-angle-right"></i> <code>imageContainerClass</code></td>
                                                     <td>string</td>
-                                                    <td>".modal-body .modal-image"</td>
-                                                    <td>Container in which images are placed</td>
+                                                    <td>".modal-image"</td>
+                                                    <td>
+                                                        Modal's image container in which images are placed
+                                                    </td>
                                                 </tr>
                                                 <tr class="light-top">
                                                     <td><i class="icon-angle-right"></i> <code>onContainerNext</code></td>
@@ -485,16 +496,22 @@
                                                     <td>Image fade in time</td>
                                                 </tr>
                                                 <tr class="light-top">
-                                                    <td><i class="icon-angle-right"></i> <code>prev</code></td>
+                                                    <td><i class="icon-angle-right"></i> <code>prevClass</code></td>
                                                     <td>string</td>
-                                                    <td>".modal-prev"</td>
-                                                    <td>Previous button selector</td>
+                                                    <td>".btn.modal-prev"</td>
+                                                    <td>
+                                                        Previous button class selector. Always selected in context of 
+                                                        the modal window
+                                                    </td>
                                                 </tr>
                                                 <tr class="light-top">
-                                                    <td><i class="icon-angle-right"></i> <code>next</code></td>
+                                                    <td><i class="icon-angle-right"></i> <code>nextClass</code></td>
                                                     <td>string</td>
-                                                    <td>".modal-next"</td>
-                                                    <td>Next button selector</td>
+                                                    <td>".btn.modal-next"</td>
+                                                    <td>
+                                                        Next button class selector. Always selected in context of 
+                                                        the modal window
+                                                    </td>
                                                 </tr>
                                                 <tr class="light-top">
                                                     <td><i class="icon-angle-right"></i> <code>prevText</code></td>
@@ -547,27 +564,27 @@
                                                 <tr class="light-top">
                                                     <td><i class="icon-angle-right"></i> <code>containerClass</code></td>
                                                     <td>string</td>
-                                                    <td>"pagination"</td>
+                                                    <td>".pagination"</td>
                                                     <td>
                                                         Class added to pagination container when it's generated
                                                     </td>
                                                 </tr>
                                                 <tr class="light-top">
-                                                    <td><i class="icon-angle-right"></i> <code>prev</code></td>
+                                                    <td><i class="icon-angle-right"></i> <code>prevClass</code></td>
                                                     <td>string</td>
-                                                    <td>".pagination-prev"</td>
+                                                    <td>".btn.pagination-prev"</td>
                                                     <td>
-                                                        Previous page button selector. When pagination is 
+                                                        Previous page button class selector. When pagination is 
                                                         generated - it's used in pagination container scope - else 
                                                         in document scope
                                                     </td>
                                                 </tr>
                                                 <tr class="light-top">
-                                                    <td><i class="icon-angle-right"></i> <code>next</code></td>
+                                                    <td><i class="icon-angle-right"></i> <code>nextClass</code></td>
                                                     <td>string</td>
-                                                    <td>".pagination-next"</td>
+                                                    <td>".btn.pagination-next"</td>
                                                     <td>
-                                                        Next page button selector. When pagination is 
+                                                        Next page button class selector. When pagination is 
                                                         generated - it's used in pagination container scope - else 
                                                         in document scope
                                                     </td>
@@ -607,7 +624,7 @@
                                                 <tr class="light-top">
                                                     <td><i class="icon-angle-right"></i> <code>loaderClass</code></td>
                                                     <td>string</td>
-                                                    <td>"jsfg-loader"</td>
+                                                    <td>".jsfg-loader"</td>
                                                     <td>
                                                         Class attached to loader tag and used to select it (mandatory)
                                                     </td>
@@ -615,7 +632,7 @@
                                                 <tr class="light-top">
                                                     <td><i class="icon-angle-right"></i> <code>text</code></td>
                                                     <td>string</td>
-                                                    <td>"Loader"</td>
+                                                    <td>"Loading"</td>
                                                     <td>
                                                         Loader static body string
                                                     </td>
@@ -640,7 +657,7 @@
                                                 <tr class="light-top">
                                                     <td><i class="icon-angle-right"></i> <code>markClass</code></td>
                                                     <td>string</td>
-                                                    <td>"animation-marks"</td>
+                                                    <td>".animation-marks"</td>
                                                     <td>
                                                         Class attached to animation marks tag and used to select 
                                                         it (mandatory)
@@ -697,7 +714,7 @@
                                                     </td>
                                                 </tr>
                                                 <tr class="light-top">
-                                                    <td><i class="icon-angle-right"></i> <code>error</code></td>
+                                                    <td><code>error</code></td>
                                                     <td>object</td>
                                                     <td>-</td>
                                                     <td>
@@ -735,7 +752,7 @@
                                                 <tr>
                                                     <td><code>thumbnailSize</code></td>
                                                     <td>string</td>
-                                                    <td>imagesSizes["medium"]</td>
+                                                    <td><code>imagesSizes["medium"]</code></td>
                                                     <td>
                                                         Thumbnail size
                                                     </td>
@@ -743,7 +760,7 @@
                                                 <tr>
                                                     <td><code>imageSize</code></td>
                                                     <td>string</td>
-                                                    <td>imagesSizes["large"]</td>
+                                                    <td><code>imagesSizes["large"]</code></td>
                                                     <td>
                                                         Target image size that'll be displayed in modal or 
                                                         new tab
@@ -774,7 +791,6 @@
                                         JsFlickrGallery is license under <a href="https://raw.github.com/petejank/js-flickr-gallery/master/LICENSE.txt" target="_blank">MIT license</a>. 
                                         © <span id="current-year"></span> 
                                         <a href="http://likeadev.com" target="_blank">Peter Jankowski</a>. 
-                                        All rights reserved.
                                     </div>
                                 </div>
                             </section>
