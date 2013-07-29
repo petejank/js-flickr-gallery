@@ -11,18 +11,6 @@
         <link rel="stylesheet" type="text/css" href="../css/font-awesome.min.css"/>
         <link rel="stylesheet" type="text/css" href="../css/js-flickr-gallery.css"/>
         <link rel="stylesheet" type="text/css" href="../css/ex-style.css"/>
-        <script>
-            $(function() {
-                $('.js-flickr-gallery').jsFlickrGallery({
-                    'fetchImages' : false,
-                    'pagination' : false,
-                    'error' : {
-                        'text' : 'No photos here mate',
-                        'tagClass' : 'big-error'
-                    }
-                });
-            });
-        </script>
     </head>
     <body>
         <header>
@@ -137,5 +125,17 @@
         <script type="text/javascript" src="../js/jquery-1.9.1.js"></script>
         <script type="text/javascript" src="../js/bootstrap.js"></script>
         <script type="text/javascript" src="../js/js-flickr-gallery.js"></script>
+        <script>
+            $(function() {
+                $('.js-flickr-gallery').jsFlickrGallery({
+                    'fetchImages' : false,
+                    'pagination' : false,
+                    'error' : {
+                        'text' : 'No photos here mate',
+                        'tagClass' : 'big-error'
+                    }
+                });
+            });
+        </script>
     </body>
 </html>

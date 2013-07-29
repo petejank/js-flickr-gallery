@@ -17,34 +17,6 @@
                 font-weight: normal;
             }
         </style>
-        <script>
-            $(function() {
-                $('.js-flickr-gallery').jsFlickrGallery({
-                    'animation' : 'show',
-                    'animationSpeed' : 500,
-                    'preload' : { // false to disable
-                        'range' : 3
-                    }, 
-                    'modal' : {
-                        'imageFadeTime' : 500,
-                        'offsetWidth' : 100,
-                        'offsetHeight' : 200
-                    },
-                    'pagination' : false,
-                    'loader' : { 
-                        'animation' : true,
-                        'text' : '',
-                        'interval' : 150,
-                        'mark' : '☠',
-                        'maxMarks' : 5
-                    },
-                    'error' : {
-                        'text' : 'No photos here mate',
-                        'tagClass' : 'big-error'
-                    }
-                });
-            });
-        </script>
     </head>
     <body>
         <header>
@@ -87,5 +59,33 @@
         <script type="text/javascript" src="../js/jquery-1.9.1.js"></script>
         <script type="text/javascript" src="../js/bootstrap.js"></script>
         <script type="text/javascript" src="../js/js-flickr-gallery.js"></script>
+        <script>
+            $(function() {
+                $('.js-flickr-gallery').jsFlickrGallery({
+                    'animation' : 'show',
+                    'animationSpeed' : 500,
+                    'preload' : { // false to disable
+                        'range' : 3
+                    }, 
+                    'modal' : {
+                        'imageFadeTime' : 500,
+                        'offsetWidth' : 100,
+                        'offsetHeight' : 200
+                    },
+                    'pagination' : false,
+                    'loader' : { 
+                        'animation' : true,
+                        'text' : '',
+                        'interval' : 150,
+                        'mark' : '☠',
+                        'maxMarks' : 5
+                    },
+                    'error' : {
+                        'text' : 'No photos here mate',
+                        'tagClass' : 'big-error'
+                    }
+                });
+            });
+        </script>
     </body>
 </html>
