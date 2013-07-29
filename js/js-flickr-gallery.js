@@ -821,6 +821,14 @@
             }
         },
                 
+        /**
+         * Returns all links to images in gallery as an array
+         * 
+         * @return Array
+         * @private
+         * @method
+         * @memberOf Plugin
+         */
         _getAnchors : function() {
             return $( this.options.structure.aClass, this.element ).get();
         },        
