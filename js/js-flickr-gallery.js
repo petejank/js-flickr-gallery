@@ -2,10 +2,10 @@
  * @projectDescription JsFlickrGallery - Simple JavaScript Flickr gallery, 
  * http://petejank.github.io/js-flickr-gallery/
  * 
- * @version 1.1
+ * @version 1.11
  * @author   Peter Jankowski http://likeadev.com
  * @license  MIT license.
- */
+ */ 
 ;(function ( $, window, document, undefined ) {
     'use strict';
 
@@ -40,9 +40,9 @@
                 'range' : 2
             }, 
             'structure' : { 
-                'ulClass' : 'thumbnails',
-                'liClass' : 'span1',
-                'aClass' : 'thumbnail'
+                'ulClass' : '.thumbnails',
+                'liClass' : '.span1',
+                'aClass' : '.thumbnail'
             },
             'modal' : { // false to disable
                 'generate' : true,
@@ -212,10 +212,7 @@
          * @memberOf Plugin
          */
         clearGallery : function() {
-            var galleryEl = this.element.getElementsByClassName( 
-                    this._replaceDots( this.options.structure.ulClass ) 
-                ).item(0),  
-                $galleryEl = $( galleryEl ),
+            var $galleryEl = $( this.options.structure.ulClass, this.element ),
                 self = this
               ;
          
@@ -243,7 +240,7 @@
                     self.loaderInterval = self._createLoader( self.element );
                 }
                 
-                galleryEl.parentNode.removeChild( galleryEl );
+                $galleryEl.remove();
             }
             
             return this;
@@ -259,7 +256,7 @@
         isLastPage : function() {
             var galleryItems = this.element.getElementsByTagName( 'ul' );
             if (galleryItems.length !== 0) {
-                if (galleryItems.item(0).getElementsByTagName( 'li' ).length < this.options.url.per_page) {
+                if (galleryItems.item( 0 ).getElementsByTagName( 'li' ).length < this.options.url.per_page) {
                     return true;
                 }
             }
@@ -372,37 +369,34 @@
                 loadedImg = 0, 
                 link, 
                 title,
-                error
+                error,
+                liClassNoDots = this._replaceDots( self.options.structure.liClass ),
+                aClassNoDots = this._replaceDots( self.options.structure.aClass )                                                   
               ;
                 
             // Check if there's more than one gallery item returned
             if ( photos.photo.length > 0 ) {
                 // Gallery is hidden by default for image loading purposes
-                $ul = $( '<ul ' + ( self.options.structure.ulClass ? 'class="' + 
-                                    self.options.structure.ulClass + '"' : null ) + 
-                                    ' style="display: none">' );
+                $ul = $( '<ul ' + 'class="' + this._replaceDots( self.options.structure.ulClass ) + 
+                                    '" style="display: none">' );
 
                 for ( var i = 0; i < photos.photo.length; i++ ) {
-                    link = 'http://farm' + photos.photo[i].farm + 
-                            '.static.flickr.com/' + photos.photo[i].server + '/' + photos.photo[i].id + '_' + 
+                    link = 'http://farm' + photos.photo[ i ].farm + 
+                            '.static.flickr.com/' + photos.photo[ i ].server + '/' + photos.photo[ i ].id + '_' + 
                             photos.photo[i].secret + '_';
-                    title = this._htmlEscape( photos.photo[i].title );
+                    title = this._htmlEscape( photos.photo[ i ].title );
                     listItems += 
-                        '<li ' + ( self.options.structure.liClass ? 'class="' + 
-                                   self.options.structure.liClass + '"' : null ) + '>' + 
+                        '<li ' + 'class="' + liClassNoDots + '">' + 
                             '<a href="' + link + self.options.imageSize + '.jpg" title="' + title + 
-                                '"' + ( self.options.structure.aClass ? 'class="' + 
-                                        self.options.structure.aClass + '"' : null ) +
-                                        ' target="_blank">' + 
+                                '" class="' + aClassNoDots + '" target="_blank">' + 
                                 '<img alt="' + title + '" src="' + link + 
                                         self.options.thumbnailSize +
                                 '.jpg"/>' + 
                             '</a>' + 
                     '</li>';
-  
                 }
                 // Append thumbnails
-                self.element.insertBefore($ul.append( listItems )[0], self.element.firstChild);
+                self.element.insertBefore( $ul.append( listItems )[0], self.element.firstChild);
                 
                 $images = $ul.find( 'img' );
                 // Error handling
@@ -463,11 +457,11 @@
          */
         _createPagination : function() {
             var pagination = '', 
-                prev = this.paginationContext.getElementsByClassName( this.options.pagination.prevClass ), 
-                next = this.paginationContext.getElementsByClassName( this.options.pagination.nextClass )
+                prev = $( this.options.pagination.prevClass, this.paginationContext )[0],
+                next = $( this.options.pagination.nextClass, this.paginationContext )[0]
               ;
-        
-            if ( prev.length === 0 && next.length === 0 && this.options.pagination.generate ) {
+                                                                                         
+            if ( !prev && !next && this.options.pagination.generate ) {
                 pagination += '<div class="' + this._replaceDots( this.options.pagination.containerClass ) + '">' +
                                 '<button ' + 'class="' +
                                     this._replaceDots( this.options.pagination.prevClass ) + '" ' +
@@ -478,7 +472,7 @@
                                     'title="' + this.options.pagination.nextText + '" ' + 
                                     'disabled="disabled">&raquo;</button>' + 
                               '</div>';
-                this.$element.append( pagination );
+                this.element.appendChild( $( pagination )[0] );
             }            
             
             return this;
@@ -606,7 +600,7 @@
               ;
               
             // Bind on thumbnail click event
-            this.$element.on( 'click', 'a.' + this.options.structure.aClass, function( event ) {
+            this.$element.on( 'click', this.options.structure.aClass, function( event ) {
                 var i;
                 
                 event.preventDefault();
@@ -616,7 +610,7 @@
                 // Also assign index to plugin instance
                 
                 for ( i = 0; i < self.anchors.length; i++ ) {
-                    if (self.anchors.item(i) === this) {
+                    if (self.anchors[ i ] === this) {
                         self.index = i;
                     }
                 }
@@ -659,7 +653,7 @@
                 $modal = $( '#' + this.options.modal.id ), 
                 $modalTitle = $( this.options.modal.title, $modal ), 
                 imageIndex = self.index, 
-                $imageAnchor = $( this.anchors.item( this.index ) ), 
+                $imageAnchor = $( this.anchors[ this.index ] ), 
                 $image = $( '<img/>' ), 
                 $imageContainer = $( this.options.modal.imageContainerClass, $modal ),
                 $window = $( window )
@@ -758,7 +752,7 @@
             for ( i = minIndex; i < maxIndex; i++ ) {
                 tempI = i < 0 ? this.anchors.length + i : i;
                 
-                anchor = this.anchors.item( tempI );
+                anchor = this.anchors[ tempI ];
                 if ( anchor && tempI !== this.index ) {
                     $( document.createElement( 'img' ) ).attr( 'src', anchor.href || $( anchor ).attr( 'href' ) );
                 }
@@ -835,8 +829,9 @@
         },
                 
         _getAnchors : function() {
-            return this.element.getElementsByClassName( this.options.structure.aClass );
+            return $( this.options.structure.aClass, this.element ).get();
         },        
+        
         /**
          * Remove loader instance. Not for public consumption
          * 
@@ -847,12 +842,10 @@
          * @memberOf Plugin
          */
         _removeLoader : function( element ) {
-            var loader = element.getElementsByClassName( this._replaceDots( this.options.loader.loaderClass ) );
-            if ( this.loaderInterval && loader.length !== 0 ) {
-                element.removeChild(
-                    loader.item( 0 )
-                );
-                    
+            var loader = $( this.options.loader.loaderClass, element )[ 0 ];
+            
+            if ( this.loaderInterval && loader ) {
+                element.removeChild( loader );
                 clearInterval( this.loaderInterval );
             }
             
