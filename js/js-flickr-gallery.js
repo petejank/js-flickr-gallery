@@ -2,7 +2,7 @@
  * @projectDescription JsFlickrGallery - Simple JavaScript Flickr gallery, 
  * http://petejank.github.io/js-flickr-gallery/
  * 
- * @version 1.11
+ * @version 1.12
  * @author   Peter Jankowski http://likeadev.com
  * @license  MIT license.
  */ 
@@ -254,14 +254,7 @@
          * @memberOf Plugin
          */
         isLastPage : function() {
-            var galleryItems = this.element.getElementsByTagName( 'ul' );
-            if (galleryItems.length !== 0) {
-                if (galleryItems.item( 0 ).getElementsByTagName( 'li' ).length < this.options.url.per_page) {
-                    return true;
-                }
-            }
-            
-            return false;
+            return ( !this.anchors || this.anchors.length < this.options.url.per_page ) ? true : false;
         },
                 
         /**
