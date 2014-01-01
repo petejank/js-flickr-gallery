@@ -1,4 +1,4 @@
-JsFlickrGallery 1.12
+JsFlickrGallery 1.2
 =============
 
 JsFlickrGallery is a [Flickr](http://flickr.com) based gallery 
@@ -25,7 +25,7 @@ License
 JsFlickrGallery is license under MIT license.
 
 The MIT License (MIT)
-Copyright © 2013 Peter Jankowski
+Copyright © 2014 Peter Jankowski
 
 Permission is hereby granted, free of charge, to any person obtaining 
 a copy of this software and associated documentation files (the “Software”), 

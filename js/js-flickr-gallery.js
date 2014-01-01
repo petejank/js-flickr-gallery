@@ -2,7 +2,7 @@
  * @projectDescription JsFlickrGallery - Simple JavaScript Flickr gallery, 
  * http://petejank.github.io/js-flickr-gallery/
  * 
- * @version 1.12
+ * @version 1.2
  * @author   Peter Jankowski http://likeadev.com
  * @license  MIT license.
  */ 
@@ -11,12 +11,15 @@
 
     // "Constants"
     var FORMAT = 'json',
-        METHOD = 'flickr.photos.search',
+        SEARCH_API_METHOD = 'flickr.photos.search',
+        SETS_API_METHOD = 'flickr.photosets.getPhotos',
         API_KEY = '62525ee8c8d131d708d33d61f29434b6',
         // Tag attributes
         DATA_TAGS_ATTR = 'data-tags',
         DATA_USER_ID_ATTR = 'data-user-id',
+        DATA_SET_ID_ATTR = 'data-set-id',
         DATA_PER_PAGE_ATTR = 'data-per-page',
+        
         DATA_GALLERY_ID_ATTR = 'data-gallery-id',
         DATA_TOGGLE_ATTR = 'jsfg',
         // Minor stuff
@@ -77,7 +80,8 @@
             },
             'url' : {
                 'per_page' : 30,
-                'tagmode' : 'all',
+                'photoset_id' : null,  // If this one is set them both "user_id" and "tags" are ignored
+                'tag_mode' : 'all',
                 'user_id' : null,
                 'tags' : null
             },
@@ -113,7 +117,7 @@
         // Select this DOM element with jQuery - for future use
         this.$element = $( element );
         // Merge passed options with defaults
-        this.options = $.extend(true, {}, defaults, options );
+        this.options = $.extend( true, {}, defaults, options );
         
         // Set contexts for pagination and modal
         this.paginationContext = this.options.pagination && this.options.pagination.generate ? this.element : document;
@@ -183,20 +187,31 @@
         createGallery : function( page ) {
             // Assign constants to url options
             this.options.url.format = FORMAT;
-            this.options.url.method = METHOD;
             this.options.url.api_key = API_KEY;
+            
+            this.options.url.photoset_id = this.$element.attr( DATA_SET_ID_ATTR ) || this.options.url.photoset_id;
+            if ( this.options.url.photoset_id ) {
+              // Fetch data for certain photo set
+              this.options.url.method = SETS_API_METHOD;
+            } else {
+              // Fetch photos by tags/user_id criteria
+              delete this.options.url.photoset_id;
+              this.options.url.method = SEARCH_API_METHOD;
+              
+              this.options.url.tags = this.$element.attr( DATA_TAGS_ATTR ) || this.options.url.tags;
+              
+              // Check if only certain user's photos should be fetched
+              this.options.url.user_id = this.$element.attr( DATA_USER_ID_ATTR ) || this.options.url.user_id;
+              if ( !this.options.url.user_id ) {
+                  delete this.options.url.user_id;
+              }
+            }
 
             // Set displayed page
             this.options.url.page = this.page = page || this.page;
-            // Get tags for self element
-            this.options.url.tags = this.$element.attr(DATA_TAGS_ATTR) || this.options.url.tags;
-            // Check if only certain user photos should be fetched
-            this.options.url.user_id = this.$element.attr(DATA_USER_ID_ATTR) || this.options.url.user_id;
-            if ( !this.options.url.user_id ) {
-                delete this.options.url.user_id;
-            }
+            
             // How many photos should be fetched?
-            this.options.url.per_page = this.$element.attr(DATA_PER_PAGE_ATTR) || this.options.url.per_page;
+            this.options.url.per_page = this.$element.attr( DATA_PER_PAGE_ATTR ) || this.options.url.per_page;
 
             // Get images using ajax and display them on success
             this._getPhotos();
@@ -335,8 +350,8 @@
                 dataType: 'jsonp',
                 timeout: FLICKR_REQUEST_TIMEOUT
             }).done(function( data ) {
-                 // Once data is returned, create gallery instance
-                self._renderGalleryContent( data.photos );
+                // Once data is returned, create gallery instance
+                self._renderGalleryContent( data.photos || data.photoset );
             }).always(function( data, textStatus ) {
                 // Try again
                 if (textStatus === 'timeout') {
