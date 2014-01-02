@@ -2,7 +2,7 @@
  * @projectDescription JsFlickrGallery - Simple JavaScript Flickr gallery, 
  * http://petejank.github.io/js-flickr-gallery/
  * 
- * @version 1.21
+ * @version 1.22
  * @author   Peter Jankowski http://likeadev.com
  * @license  MIT license.
  */ 
@@ -19,7 +19,6 @@
         DATA_USER_ID_ATTR = 'data-user-id',
         DATA_SET_ID_ATTR = 'data-set-id',
         DATA_PER_PAGE_ATTR = 'data-per-page',
-        
         DATA_GALLERY_ID_ATTR = 'data-gallery-id',
         DATA_TOGGLE_ATTR = 'jsfg',
         // Minor stuff
@@ -80,10 +79,7 @@
             },
             'url' : {
                 'per_page' : 30,
-                'photoset_id' : null,  // If this one is set them both "user_id" and "tags" are ignored
-                'tag_mode' : 'all',
-                'user_id' : null,
-                'tags' : null
+                'tag_mode' : 'all'
             },
             'error' : {
                 'text' : 'No photos found',
@@ -193,13 +189,14 @@
             if ( this.options.url.photoset_id ) {
               // Fetch data for certain photo set
               this.options.url.method = SETS_API_METHOD;
+              delete this.options.url.tag_mode;
             } else {
               // Fetch photos by tags/user_id criteria
+              this.options.url.method = SEARCH_API_METHOD;  
               delete this.options.url.photoset_id;
-              this.options.url.method = SEARCH_API_METHOD;
-              
+                          
+              // Tags are mandatory when fetching photos from Flickr
               this.options.url.tags = this.$element.attr( DATA_TAGS_ATTR ) || this.options.url.tags;
-              
               // Check if only certain user's photos should be fetched
               this.options.url.user_id = this.$element.attr( DATA_USER_ID_ATTR ) || this.options.url.user_id;
               if ( !this.options.url.user_id ) {
@@ -369,7 +366,7 @@
         /**
          * Create and render gallery instance. Not for public consumption
          * 
-         * @param Array photos
+         * @param Object photos
          * @return Plugin
          * @private
          * @method

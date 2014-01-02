@@ -1,4 +1,4 @@
-JsFlickrGallery 1.21
+JsFlickrGallery 1.22
 =============
 
 JsFlickrGallery is a [Flickr](http://flickr.com) based gallery 
