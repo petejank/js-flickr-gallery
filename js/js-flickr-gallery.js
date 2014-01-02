@@ -2,7 +2,7 @@
  * @projectDescription JsFlickrGallery - Simple JavaScript Flickr gallery, 
  * http://petejank.github.io/js-flickr-gallery/
  * 
- * @version 1.2
+ * @version 1.21
  * @author   Peter Jankowski http://likeadev.com
  * @license  MIT license.
  */ 
@@ -222,11 +222,12 @@
         /**
          * Hide gallery items and remove them
          * 
+         * @param Integer page
          * @return Plugin
          * @method
          * @memberOf Plugin
          */
-        clearGallery : function() {
+        clearGallery : function( page ) {
             var $galleryEl = $( this.options.structure.ulClass, this.element ),
                 self = this
               ;
@@ -255,6 +256,11 @@
                     self.loaderInterval = self._createLoader( self.element );
                 }
                 
+                // Init creation of new gallery if page is present
+                if ( page ) {
+                  self.createGallery(page);
+                }
+                
                 $galleryEl.remove();
             }
             
@@ -281,7 +287,7 @@
          */
         nextPage : function() {
             if ( !this.isLastPage() ) {
-                return this.clearGallery().createGallery( this.page + 1 );
+                return this.clearGallery( this.page + 1 );
             } else {
                 return false;
             }
@@ -296,7 +302,7 @@
          */
         prevPage : function() {
            if ( this.page > 1 ) {
-               return this.clearGallery().createGallery( this.page - 1 );
+               return this.clearGallery( this.page - 1 );
            } else {
                return false;
            }
