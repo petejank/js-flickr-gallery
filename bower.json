@@ -23,5 +23,8 @@
     "bower_modules",
     "test",
     "tests"
-  ]
+  ],
+  "dependencies": {
+    "jquery": ">= 1.7.0"
+  }
 }
