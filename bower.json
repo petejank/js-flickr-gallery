@@ -1,6 +1,6 @@
 {
   "name": "js-flickr-gallery",
-  "version": "1.22",
+  "version": "1.23",
   "homepage": "http://petejank.github.io/js-flickr-gallery/",
   "authors": [
     "Peter Jankowski"
@@ -25,6 +25,7 @@
     "tests"
   ],
   "dependencies": {
-    "jquery": ">= 1.7.0"
+    "jquery": "<2.0.0",
+    "bootstrap": "~2.3.2"
   }
 }
