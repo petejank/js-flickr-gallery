@@ -2,7 +2,7 @@
  * @projectDescription JsFlickrGallery - Simple JavaScript Flickr gallery, 
  * http://petejank.github.io/js-flickr-gallery/
  * 
- * @version 1.22
+ * @version 1.23
  * @author   Peter Jankowski http://likeadev.com
  * @license  MIT license.
  */ 
