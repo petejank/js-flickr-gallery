@@ -2,7 +2,7 @@
  * @projectDescription JsFlickrGallery - Simple JavaScript Flickr gallery, 
  * http://petejank.github.io/js-flickr-gallery/
  * 
- * @version 1.23
+ * @version 1.24
  * @author   Peter Jankowski http://likeadev.com
  * @license  MIT license.
  */ 
@@ -93,7 +93,7 @@
                 'large' : 'b', // large (up to 1024 in any of two dimensions)
                 'original' : 'o' // original image size
             },
-            'apiUrl' : 'http://api.flickr.com/services/rest/?jsoncallback=?',
+            'apiUrl' : 'https://api.flickr.com/services/rest/?jsoncallback=?',
             'setDefaultSize' : function() {
                 this.thumbnailSize = this.imageSizes.medium;
                 this.imageSize = this.imageSizes.large;   
@@ -392,7 +392,7 @@
                                     '" style="display: none">' );
 
                 for ( var i = 0; i < photos.photo.length; i++ ) {
-                    link = 'http://farm' + photos.photo[ i ].farm + 
+                    link = 'https://farm' + photos.photo[ i ].farm + 
                             '.static.flickr.com/' + photos.photo[ i ].server + '/' + photos.photo[ i ].id + '_' + 
                             photos.photo[i].secret + '_';
                     title = this._htmlEscape( photos.photo[ i ].title );
